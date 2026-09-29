@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if has_pin %}
+Change PIN
+{% else %}
+Set PIN
+{% endif %}
+| SecureCloud Learn
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .pin-page {
+        max-width: 600px;
+        margin: 40px auto;
+    }
+
+    .pin-header {
+        margin-bottom: 25px;
+    }
+
+    .pin-header h1 {
+        margin: 0 0 8px 0;
+        color: #1f2937;
+        font-size: 28px;
+    }
+
+    .pin-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+
+    .pin-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 28px;
+    }
+
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+
+    .form-group input {
+        width: 100%;
+        box-sizing: border-box;
+
+        padding: 12px 14px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+
+        font-size: 15px;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .form-group input:focus {
+        border-color: #16a34a;
+
+        box-shadow:
+            0 0 0 3px rgba(22, 163, 74, 0.10);
+    }
+
+
+    .pin-help {
+        margin-top: 6px;
+        font-size: 12px;
+        color: #6b7280;
+    }
+
+
+    .pin-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+
+    .btn-primary {
+        flex: 1;
+
+        padding: 12px 18px;
+
+        border: none;
+        border-radius: 8px;
+
+        background: #16a34a;
+        color: white;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+
+    .btn-primary:hover {
+        background: #15803d;
+    }
+
+
+    .btn-secondary {
+        flex: 1;
+
+        padding: 12px 18px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+
+        background: #ffffff;
+        color: #374151;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        text-align: center;
+        text-decoration: none;
+    }
+
+
+    .btn-secondary:hover {
+        background: #f9fafb;
+    }
+
+
+    @media (max-width: 600px) {
+
+        .pin-page {
+            margin: 25px 15px;
+        }
+
+        .pin-card {
+            padding: 20px;
+        }
+
+        .pin-actions {
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+
+<div class="pin-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="pin-header">
+
+        {% if has_pin %}
+
+            <h1>
+                Change Your PIN
+            </h1>
+
+            <p>
+                Update your 4-digit security PIN to help
+                protect your SecureCloud Learn account.
+            </p>
+
+        {% else %}
+
+            <h1>
+                Set Your PIN
+            </h1>
+
+            <p>
+                You have not configured a security PIN yet.
+                Set a 4-digit PIN to add additional protection
+                to your account.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =================================================
+         FORM
+    ================================================== -->
+
+    <div class="pin-card">
+
+        <form
+            method="POST"
+            action="{{ url_for('auth_bp.change_pin') }}"
+        >
+
+
+            <!-- CURRENT PIN -->
+
+            {% if has_pin %}
+
+                <div class="form-group">
+
+                    <label for="current_pin">
+                        Current PIN
+                    </label>
+
+                    <input
+                        type="password"
+                        id="current_pin"
+                        name="current_pin"
+                        inputmode="numeric"
+                        pattern="[0-9]{4}"
+                        maxlength="4"
+                        autocomplete="current-password"
+                        placeholder="Enter current PIN"
+                    >
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- NEW PIN -->
+
+            <div class="form-group">
+
+                <label for="new_pin">
+                    {% if has_pin %}
+                        New PIN
+                    {% else %}
+                        New PIN
+                    {% endif %}
+                </label>
+
+                <input
+                    type="password"
+                    id="new_pin"
+                    name="new_pin"
+                    inputmode="numeric"
+                    pattern="[0-9]{4}"
+                    maxlength="4"
+                    autocomplete="new-password"
+                    placeholder="Enter 4-digit PIN"
+                    required
+                >
+
+                <div class="pin-help">
+                    Your PIN must contain exactly 4 digits.
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRM PIN -->
+
+            <div class="form-group">
+
+                <label for="confirm_pin">
+                    Confirm PIN
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_pin"
+                    name="confirm_pin"
+                    inputmode="numeric"
+                    pattern="[0-9]{4}"
+                    maxlength="4"
+                    autocomplete="new-password"
+                    placeholder="Re-enter your PIN"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="pin-actions">
+
+                <a
+                    href="{{ url_for('dashboard_bp.settings') }}"
+                    class="btn-secondary"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+
+                    {% if has_pin %}
+                        Change PIN
+                    {% else %}
+                        Set PIN
+                    {% endif %}
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ quiz.title }}</h2>
+
+{% if questions|length == 0 %}
+    <p>No questions are available for this quiz.</p>
+{% else %}
+
+<form method="POST" action="{{ url_for('quiz_bp.submit_quiz', quiz_id=quiz.id) }}">
+
+    {% for question in questions %}
+        <div style="margin-bottom:20px; padding:15px; border:1px solid #ddd; border-radius:8px;">
+
+            <p><strong>{{ loop.index }}. {{ question.question_text }}</strong></p>
+
+            <label>
+                <input type="radio"
+                       name="q{{ question.id }}"
+                       value="1"
+                       required>
+                {{ question.option1 }}
+            </label><br>
+
+            <label>
+                <input type="radio"
+                       name="q{{ question.id }}"
+                       value="2">
+                {{ question.option2 }}
+            </label><br>
+
+            <label>
+                <input type="radio"
+                       name="q{{ question.id }}"
+                       value="3">
+                {{ question.option3 }}
+            </label><br>
+
+            <label>
+                <input type="radio"
+                       name="q{{ question.id }}"
+                       value="4">
+                {{ question.option4 }}
+            </label>
+
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-success">
+        Submit Quiz
+    </button>
+
+</form>
+
+{% endif %}
+
+{% endblock %}

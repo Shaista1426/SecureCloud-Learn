@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:800px;margin:auto;margin-top:30px;padding:20px;background:#fff;border-radius:10px;">
+
+    <h2>{{ course.title }}</h2>
+    <p>{{ course.description }}</p>
+
+    <hr>
+
+    <h4>Actions</h4>
+
+    <a href="{{ url_for('quiz_bp.create_quiz', course_id=course.id) }}"
+       class="btn btn-success">
+        Add Quiz
+    </a>
+
+</div>
+
+{% endblock %}

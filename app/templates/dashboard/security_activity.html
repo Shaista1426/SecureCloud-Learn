@@ -1,0 +1,745 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Security Activity
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       SECURITY ACTIVITY PAGE
+    ===================================================== */
+
+    .security-activity-page {
+        width: 95%;
+        max-width: 1500px;
+        margin: 35px auto;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .security-activity-header {
+        margin-bottom: 25px;
+    }
+
+    .security-activity-header h2 {
+        margin: 0 0 8px 0;
+        color: #173f63;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .security-activity-header p {
+        margin: 0;
+        color: #555;
+        font-size: 16px;
+    }
+
+
+    /* =====================================================
+       SEARCH / FILTER
+    ===================================================== */
+
+    .security-search-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .security-search-input,
+    .security-date-input {
+        padding: 11px 13px;
+        border: 1px solid #cbd5df;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #26384a;
+        background-color: #ffffff;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .security-search-input {
+        width: 220px;
+    }
+
+    .security-date-input {
+        width: 155px;
+    }
+
+    .security-search-input:focus,
+    .security-date-input:focus {
+        border-color: #173f63;
+        box-shadow: 0 0 0 2px rgba(23, 63, 99, 0.10);
+    }
+
+
+    /* =====================================================
+       SEARCH BUTTON
+    ===================================================== */
+
+    .security-search-button {
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #173f63;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .security-search-button:hover {
+        background-color: #12334f;
+    }
+
+
+    /* =====================================================
+       CLEAR BUTTON
+    ===================================================== */
+
+    .security-clear-button {
+        padding: 10px 17px;
+        border: 1px solid #cbd5df;
+        border-radius: 5px;
+        color: #374151;
+        background-color: #ffffff;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .security-clear-button:hover {
+        background-color: #f5f7f9;
+    }
+
+
+    /* =====================================================
+       TABLE CARD
+    ===================================================== */
+
+    .security-activity-card {
+        background: #ffffff;
+        border: 1px solid #d9e1e8;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+
+    /* =====================================================
+       TABLE WRAPPER
+    ===================================================== */
+
+    .security-activity-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .security-activity-table {
+        width: 100%;
+        min-width: 1150px;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 14px;
+        color: #1f2933;
+    }
+
+
+    /* =====================================================
+       COLUMN WIDTHS
+    ===================================================== */
+
+    .security-activity-table th:nth-child(1),
+    .security-activity-table td:nth-child(1) {
+        width: 70px;
+    }
+
+    .security-activity-table th:nth-child(2),
+    .security-activity-table td:nth-child(2) {
+        width: 150px;
+    }
+
+    .security-activity-table th:nth-child(3),
+    .security-activity-table td:nth-child(3) {
+        width: 180px;
+    }
+
+    .security-activity-table th:nth-child(4),
+    .security-activity-table td:nth-child(4) {
+        width: 150px;
+    }
+
+    .security-activity-table th:nth-child(5),
+    .security-activity-table td:nth-child(5) {
+        width: 190px;
+    }
+
+    .security-activity-table th:nth-child(6),
+    .security-activity-table td:nth-child(6) {
+        width: auto;
+    }
+
+
+    /* =====================================================
+       TABLE HEADER
+    ===================================================== */
+
+    .security-activity-table thead {
+        background-color: #173f63;
+        color: #ffffff;
+    }
+
+    .security-activity-table th {
+        padding: 15px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+        color: #ffffff;
+        border-right: 1px solid rgba(255, 255, 255, 0.25);
+        white-space: nowrap;
+    }
+
+    .security-activity-table th:last-child {
+        border-right: none;
+    }
+
+
+    /* =====================================================
+       TABLE BODY
+    ===================================================== */
+
+    .security-activity-table td {
+        padding: 14px;
+        border-right: 1px solid #d9e1e8;
+        border-bottom: 1px solid #d9e1e8;
+        vertical-align: middle;
+        background-color: #ffffff;
+    }
+
+    .security-activity-table td:last-child {
+        border-right: none;
+    }
+
+    .security-activity-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /* =====================================================
+       CLICKABLE ACTIVITY ROW
+    ===================================================== */
+
+    .security-activity-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .security-activity-row:hover td {
+        background-color: #f1f6fa;
+    }
+
+
+    /* =====================================================
+       SERIAL NUMBER
+    ===================================================== */
+
+    .serial-number {
+        text-align: center !important;
+        color: #374151;
+        font-weight: 500;
+    }
+
+
+    /* =====================================================
+       AUDIT ID
+    ===================================================== */
+
+    .audit-id {
+        font-weight: 700;
+        color: #173f63;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       EVENT
+    ===================================================== */
+
+    .event-type {
+        font-weight: 600;
+        color: #26384a;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       IP ADDRESS
+    ===================================================== */
+
+    .ip-address {
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        color: #374151;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       DATE / TIME
+    ===================================================== */
+
+    .date-time {
+        color: #374151;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       DESCRIPTION
+    ===================================================== */
+
+    .description {
+        color: #374151;
+        line-height: 1.5;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+
+    /* =====================================================
+       REPORT ACTION
+    ===================================================== */
+
+    .report-link {
+        display: inline-block;
+        margin-top: 7px;
+        color: #b42318;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .report-link:hover {
+        text-decoration: underline;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .activity-empty {
+        padding: 50px 20px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .activity-empty-icon {
+        font-size: 38px;
+        margin-bottom: 12px;
+    }
+
+    .activity-empty h3 {
+        margin: 0 0 8px;
+        color: #374151;
+        font-size: 18px;
+    }
+
+    .activity-empty p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 700px) {
+
+        .security-activity-page {
+            width: 92%;
+            margin: 25px auto;
+        }
+
+        .security-search-form {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .security-search-input,
+        .security-date-input,
+        .security-search-button,
+        .security-clear-button {
+            width: 100%;
+        }
+
+    }
+
+</style>
+
+
+<div class="security-activity-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="security-activity-header">
+
+        <h2>
+            Security Activity
+        </h2>
+
+        <p>
+            Review recent security-related activity on your account.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         SEARCH / FILTER FORM
+    ================================================== -->
+
+    <form
+        method="GET"
+        action="{{ url_for('dashboard_bp.security_activity') }}"
+        class="security-search-form"
+    >
+
+
+        <!-- AUDIT ID -->
+
+        <input
+            type="text"
+            name="audit_id"
+            value="{{ audit_id }}"
+            placeholder="Audit ID"
+            class="security-search-input"
+        >
+
+
+        <!-- EVENT TYPE -->
+
+        <select
+            name="event_type"
+            class="security-search-input"
+        >
+
+            <option value="">
+                All Events
+            </option>
+
+            <option
+                value="LOGIN_SUCCESS"
+                {% if event_type == 'LOGIN_SUCCESS' %}
+                    selected
+                {% endif %}
+            >
+                LOGIN_SUCCESS
+            </option>
+
+            <option
+                value="LOGIN_FAILED"
+                {% if event_type == 'LOGIN_FAILED' %}
+                    selected
+                {% endif %}
+            >
+                LOGIN_FAILED
+            </option>
+
+            <option
+                value="MFA_SUCCESS"
+                {% if event_type == 'MFA_SUCCESS' %}
+                    selected
+                {% endif %}
+            >
+                MFA_SUCCESS
+            </option>
+
+            <option
+                value="MFA_FAILED"
+                {% if event_type == 'MFA_FAILED' %}
+                    selected
+                {% endif %}
+            >
+                MFA_FAILED
+            </option>
+
+            <option
+                value="LOGOUT"
+                {% if event_type == 'LOGOUT' %}
+                    selected
+                {% endif %}
+            >
+                LOGOUT
+            </option>
+
+            <option
+                value="SECURITY_REPORT_AUTH_FAILED"
+                {% if event_type == 'SECURITY_REPORT_AUTH_FAILED' %}
+                    selected
+                {% endif %}
+            >
+                SECURITY_REPORT_AUTH_FAILED
+            </option>
+
+            <option
+                value="SECURITY_REPORT_AUTH_SUCCESS"
+                {% if event_type == 'SECURITY_REPORT_AUTH_SUCCESS' %}
+                    selected
+                {% endif %}
+            >
+                SECURITY_REPORT_AUTH_SUCCESS
+            </option>
+
+            <option
+                value="SECURITY_REPORT_SUBMITTED"
+                {% if event_type == 'SECURITY_REPORT_SUBMITTED' %}
+                    selected
+                {% endif %}
+            >
+                SECURITY_REPORT_SUBMITTED
+            </option>
+
+        </select>
+
+
+        <!-- FROM DATE -->
+
+        <input
+            type="date"
+            name="from_date"
+            value="{{ from_date }}"
+            class="security-date-input"
+        >
+
+
+        <!-- TO DATE -->
+
+        <input
+            type="date"
+            name="to_date"
+            value="{{ to_date }}"
+            class="security-date-input"
+        >
+
+
+        <!-- APPLY -->
+
+        <button
+            type="submit"
+            class="security-search-button"
+        >
+            Apply Filters
+        </button>
+
+
+        <!-- CLEAR -->
+
+        <a
+            href="{{ url_for('dashboard_bp.security_activity') }}"
+            class="security-clear-button"
+        >
+            Clear
+        </a>
+
+    </form>
+
+
+    <!-- =================================================
+         ACTIVITY TABLE
+    ================================================== -->
+
+    <div class="security-activity-card">
+
+        {% if logs %}
+
+            <div class="security-activity-table-wrapper">
+
+                <table class="security-activity-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="serial-number">
+                                S.No.
+                            </th>
+
+                            <th>
+                                Audit ID
+                            </th>
+
+                            <th>
+                                Event
+                            </th>
+
+                            <th>
+                                IP Address
+                            </th>
+
+                            <th>
+                                Date &amp; Time
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for log in logs %}
+
+                            <tr
+                                class="security-activity-row"
+                                onclick="window.location.href='{{ url_for(
+                                    'dashboard_bp.report_suspicious_activity',
+                                    audit_log_id=log.id
+                                ) }}'"
+                            >
+
+
+                                <!-- SERIAL -->
+
+                                <td class="serial-number">
+
+                                    {{ loop.index }}
+
+                                </td>
+
+
+                                <!-- AUDIT ID -->
+
+                                <td class="audit-id">
+
+                                    AUD-{{ '%06d'|format(log.id) }}
+
+                                </td>
+
+
+                                <!-- EVENT -->
+
+                                <td class="event-type">
+
+                                    {{ log.event_type }}
+
+                                </td>
+
+
+                                <!-- IP -->
+
+                                <td class="ip-address">
+
+                                    {{ log.ip_address or 'N/A' }}
+
+                                </td>
+
+
+                                <!-- DATE -->
+
+                                <td class="date-time">
+
+                                    {{ log.created_at.strftime(
+                                        '%d %b %Y, %I:%M %p'
+                                    ) }}
+
+                                </td>
+
+
+                                <!-- DESCRIPTION -->
+
+                                <td class="description">
+
+                                    {{ log.description or 'N/A' }}
+
+                                    <br>
+
+                                    <a
+                                        href="{{ url_for(
+                                            'dashboard_bp.report_suspicious_activity',
+                                            audit_log_id=log.id
+                                        ) }}"
+                                        class="report-link"
+                                        onclick="event.stopPropagation();"
+                                    >
+                                        Report Suspicious Activity
+                                    </a>
+
+                                </td>
+
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="activity-empty">
+
+                <div class="activity-empty-icon">
+                    🛡️
+                </div>
+
+                <h3>
+                    No Security Activity Found
+                </h3>
+
+                <p>
+                    No security-related activity matches
+                    your selected filters.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =================================================
+         BACK TO SETTINGS
+    ================================================== -->
+
+    <a
+        href="{{ url_for('dashboard_bp.settings') }}"
+        class="back-link"
+        style="
+            display: inline-block;
+            margin-top: 20px;
+            color: #173f63;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        "
+    >
+        ← Back to Settings
+    </a>
+
+</div>
+
+{% endblock %}

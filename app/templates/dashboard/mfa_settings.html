@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}
+Two-Factor Authentication | SecureCloud Learn
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .mfa-page {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .mfa-header {
+        margin-bottom: 30px;
+    }
+
+    .mfa-header h1 {
+        margin: 0 0 8px 0;
+        color: #1f2937;
+        font-size: 28px;
+    }
+
+    .mfa-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .mfa-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+    .mfa-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background: #edf7ef;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 25px;
+        margin-bottom: 18px;
+    }
+
+    .mfa-title {
+        font-size: 19px;
+        font-weight: 700;
+        color: #1f2937;
+        margin-bottom: 8px;
+    }
+
+    .mfa-description {
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.6;
+        margin-bottom: 22px;
+    }
+
+    .mfa-status {
+        padding: 14px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .mfa-enabled {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .mfa-disabled {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+    .mfa-button {
+        display: inline-block;
+        padding: 11px 18px;
+        border: none;
+        border-radius: 8px;
+        background: #198754;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .mfa-button:hover {
+        opacity: 0.9;
+    }
+
+    .mfa-back {
+        display: inline-block;
+        margin-top: 18px;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+</style>
+
+
+<div class="mfa-page">
+
+    <div class="mfa-header">
+
+        <h1>
+            Two-Factor Authentication
+        </h1>
+
+        <p>
+            Add an additional layer of security to your SecureCloud Learn account.
+        </p>
+
+    </div>
+
+
+    <div class="mfa-card">
+
+        <div class="mfa-icon">
+            🛡️
+        </div>
+
+
+        <div class="mfa-title">
+            Two-Factor Authentication
+        </div>
+
+
+        <div class="mfa-description">
+
+            When enabled, SecureCloud Learn will send a
+            one-time verification code to your registered
+            email address whenever you log in.
+
+        </div>
+
+
+        {% if current_user.mfa_enabled %}
+
+            <div class="mfa-status mfa-enabled">
+
+                <strong>
+                    Two-Factor Authentication is enabled.
+                </strong>
+
+                <br>
+
+                Your account requires an additional
+                verification code during login.
+
+            </div>
+
+
+            <form
+    method="POST"
+    action="{{ url_for('auth_bp.disable_mfa') }}"
+    style="display: inline;"
+>
+    <button
+        type="submit"
+        class="mfa-button"
+        onclick="return confirm('Are you sure you want to disable Two-Factor Authentication?');"
+    >
+        Disable Two-Factor Authentication
+    </button>
+</form>
+
+        {% else %}
+
+            <div class="mfa-status mfa-disabled">
+
+                <strong>
+                    Two-Factor Authentication is disabled.
+                </strong>
+
+                <br>
+
+                Your account currently does not require
+                an additional verification code during login.
+
+            </div>
+
+
+            <a
+                href="{{ url_for('auth_bp.enable_mfa') }}"
+                class="mfa-button"
+            >
+                Enable Two-Factor Authentication
+            </a>
+
+        {% endif %}
+
+
+        <br>
+
+
+        <a
+            href="{{ url_for('dashboard_bp.settings') }}"
+            class="mfa-back"
+        >
+            ← Back to Settings
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

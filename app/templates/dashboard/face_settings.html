@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}
+Face Authentication | SecureCloud Learn
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .face-settings-page {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .settings-back {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #2e7d32;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .settings-back:hover {
+        text-decoration: underline;
+    }
+
+    .face-header {
+        margin-bottom: 25px;
+    }
+
+    .face-header h1 {
+        margin: 0 0 8px 0;
+        font-size: 28px;
+        color: #1f2937;
+    }
+
+    .face-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .face-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+    .face-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 12px;
+        background: #edf7ef;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 25px;
+
+        margin-bottom: 18px;
+    }
+
+    .face-card h2 {
+        margin: 0 0 8px 0;
+        font-size: 20px;
+        color: #1f2937;
+    }
+
+    .face-card p {
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .status-row {
+        margin-top: 25px;
+        padding: 15px;
+
+        background: #f8faf9;
+
+        border-radius: 8px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .status-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .status-disabled {
+        background: #f3f4f6;
+        color: #6b7280;
+
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+</style>
+
+
+<div class="face-settings-page">
+
+
+    <!-- BACK -->
+
+    <a
+        href="{{ url_for('dashboard_bp.settings') }}"
+        class="settings-back"
+    >
+        ← Back to Settings
+    </a>
+
+
+    <!-- HEADER -->
+
+    <div class="face-header">
+
+        <h1>
+            Face Authentication
+        </h1>
+
+        <p>
+            Manage face authentication for your account.
+        </p>
+
+    </div>
+
+
+    <!-- CARD -->
+
+    <div class="face-card">
+
+    <div class="face-icon">
+        😊
+    </div>
+
+    <h2>
+        Face Authentication
+    </h2>
+
+    <p>
+        Face authentication provides an additional security
+        option for recovering your account when you are unable
+        to use your password.
+    </p>
+
+
+    <!-- STATUS -->
+
+    <div class="status-row">
+
+        <div>
+            <div class="status-label">
+                Current Status
+            </div>
+
+            {% if current_user.face_enabled %}
+
+                <p style="
+                    margin:5px 0 0 0;
+                    font-size:13px;
+                    color:#2e7d32;
+                ">
+                    Face authentication is active on your account.
+                </p>
+
+            {% else %}
+
+                <p style="
+                    margin:5px 0 0 0;
+                    font-size:13px;
+                    color:#6b7280;
+                ">
+                    Face authentication is currently disabled.
+                </p>
+
+            {% endif %}
+        </div>
+
+        {% if current_user.face_enabled %}
+
+    <div style="
+        margin-top:20px;
+        padding-top:20px;
+        border-top:1px solid #e5e7eb;
+    ">
+
+        <form
+            method="POST"
+            action="{{ url_for('dashboard_bp.disable_face') }}"
+            onsubmit="return confirm(
+                'Are you sure you want to disable Face Authentication?'
+            );"
+        >
+
+            <button
+                type="submit"
+                style="
+                    background:#dc3545;
+                    color:white;
+                    border:none;
+                    padding:10px 18px;
+                    border-radius:8px;
+                    font-size:14px;
+                    font-weight:600;
+                    cursor:pointer;
+                "
+            >
+                Disable Face Authentication
+            </button>
+
+        </form>
+
+        <p style="
+            margin:10px 0 0 0;
+            color:#6b7280;
+            font-size:12px;
+        ">
+            Disabling this will remove Face Authentication as an
+            account recovery option.
+        </p>
+
+    </div>
+
+{% endif %}
+
+        {% if current_user.face_enabled %}
+
+            <span
+                style="
+                    background:#e8f5e9;
+                    color:#2e7d32;
+                    padding:6px 12px;
+                    border-radius:20px;
+                    font-size:12px;
+                    font-weight:700;
+                "
+            >
+                Enabled
+            </span>
+
+        {% else %}
+
+            <span class="status-disabled">
+                Disabled
+            </span>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         ENABLE / DISABLE
+    ====================================================== -->
+
+    <div style="
+        margin-top:25px;
+        padding-top:20px;
+        border-top:1px solid #e5e7eb;
+    ">
+
+
+        {% if current_user.face_enabled %}
+
+            <p style="
+                color:#6b7280;
+                font-size:13px;
+                line-height:1.5;
+                margin-bottom:15px;
+            ">
+                Your registered face can currently be used
+                as an account recovery method.
+            </p>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('dashboard_bp.disable_face') }}"
+            >
+
+                <button
+                    type="submit"
+                    style="
+                        background:#dc3545;
+                        color:white;
+                        border:none;
+                        padding:10px 18px;
+                        border-radius:8px;
+                        font-size:14px;
+                        font-weight:600;
+                        cursor:pointer;
+                    "
+                    onclick="
+                        return confirm(
+                            'Are you sure you want to disable Face Authentication?'
+                        );
+                    "
+                >
+                    Disable Face Authentication
+                </button>
+
+            </form>
+
+
+        {% else %}
+
+
+            <p style="
+                color:#6b7280;
+                font-size:13px;
+                line-height:1.5;
+                margin-bottom:15px;
+            ">
+                Enable face authentication to use your face
+                as an additional account recovery method.
+            </p>
+
+
+            <a
+                href="{{ url_for('auth_bp.face_register') }}"
+                style="
+                    display:inline-flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:#2e7d32;
+                    color:white;
+                    padding:10px 18px;
+                    border-radius:8px;
+                    font-size:14px;
+                    font-weight:600;
+                    text-decoration:none;
+                "
+            >
+                Enable Face Authentication
+            </a>
+
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Choose Recovery Method | SecureCloud Learn
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f5f7fa;
+
+            color: #1f2937;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px 15px;
+        }
+
+
+        .recovery-page {
+
+            width: 100%;
+
+            max-width: 520px;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ====================================================== */
+
+        .brand-section {
+
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .brand-logo {
+
+            width: 62px;
+
+            height: 62px;
+
+            object-fit: contain;
+
+            margin-bottom: 8px;
+        }
+
+
+        .brand-name {
+
+            margin: 0;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            color: #2e7d32;
+        }
+
+
+        .brand-tagline {
+
+            margin-top: 5px;
+
+            color: #7b8794;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           MAIN CARD
+        ====================================================== */
+
+        .recovery-container {
+
+            width: 100%;
+
+            background: #ffffff;
+
+            padding: 32px 34px;
+
+            border-radius: 14px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 6px 25px
+                rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+        }
+
+
+        h1 {
+
+            margin: 0 0 10px;
+
+            font-size: 24px;
+
+            color: #17202a;
+        }
+
+
+        .subtitle {
+
+            margin: 0 0 26px;
+
+            color: #7b8794;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           RECOVERY METHODS
+        ====================================================== */
+
+        .methods {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 14px;
+
+            text-align: left;
+        }
+
+
+        .method-card {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            padding: 17px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            text-decoration: none;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .method-card:hover {
+
+            background: #f8faf8;
+
+            border-color: #2e7d32;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           ICON
+        ====================================================== */
+
+        .method-icon {
+
+            width: 46px;
+
+            height: 46px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background: #edf7ef;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+
+        /* =====================================================
+           METHOD TEXT
+        ====================================================== */
+
+        .method-content {
+
+            flex: 1;
+        }
+
+
+        .method-title {
+
+            margin: 0 0 4px;
+
+            color: #1f2937;
+
+            font-size: 15px;
+
+            font-weight: 600;
+        }
+
+
+        .method-description {
+
+            margin: 0;
+
+            color: #7b8794;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .method-arrow {
+
+            color: #2e7d32;
+
+            font-size: 20px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           DISABLED FACE AUTHENTICATION
+        ====================================================== */
+
+        .method-disabled {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            padding: 17px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 10px;
+
+            background: #f9fafb;
+
+            opacity: 0.7;
+
+            text-align: left;
+        }
+
+
+        .disabled-badge {
+
+            display: inline-block;
+
+            margin-top: 5px;
+
+            padding: 3px 8px;
+
+            border-radius: 12px;
+
+            background: #f3f4f6;
+
+            color: #6b7280;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           BACK LINK
+        ====================================================== */
+
+        .back-link {
+
+            display: inline-block;
+
+            margin-top: 24px;
+
+            color: #2e7d32;
+
+            font-size: 13px;
+
+            text-decoration: none;
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           SECURITY NOTE
+        ====================================================== */
+
+        .security-note {
+
+            margin-top: 20px;
+
+            padding: 11px 12px;
+
+            background: #f8faf8;
+
+            border: 1px solid #e2e8e2;
+
+            border-radius: 7px;
+
+            color: #7b8794;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 500px) {
+
+            .recovery-container {
+
+                padding: 26px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="recovery-page">
+
+
+    <!-- =====================================================
+         BRAND
+    ====================================================== -->
+
+    <div class="brand-section">
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/logo.png'
+            ) }}"
+            alt="SecureCloud Learn Logo"
+            class="brand-logo"
+        >
+
+        <h2 class="brand-name">
+            SecureCloud Learn
+        </h2>
+
+        <div class="brand-tagline">
+            Secure Digital Learning Platform
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RECOVERY CARD
+    ====================================================== -->
+
+    <div class="recovery-container">
+
+
+        <h1>
+            Choose a Recovery Method
+        </h1>
+
+
+        <p class="subtitle">
+
+            Select a method to verify your identity
+            and recover your account.
+
+        </p>
+
+
+        <div class="methods">
+
+
+            <!-- =================================================
+                 SECURITY QUESTION
+            ================================================== -->
+
+            <a
+                href="{{ url_for(
+                    'auth_bp.verify_security_question'
+                ) }}"
+                class="method-card"
+            >
+
+                <div class="method-icon">
+                    🔐
+                </div>
+
+
+                <div class="method-content">
+
+                    <div class="method-title">
+                        Verify using Security Question
+                    </div>
+
+                    <p class="method-description">
+
+                        Answer your registered security question
+                        to verify your identity.
+
+                    </p>
+
+                </div>
+
+
+                <div class="method-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+            <!-- =================================================
+                 FACE AUTHENTICATION
+            ================================================== -->
+
+            {% if user.face_enabled and user.face_encoding %}
+
+                <a
+                    href="{{ url_for(
+                        'auth_bp.face_recovery'
+                    ) }}"
+                    class="method-card"
+                >
+
+                    <div class="method-icon">
+                        😊
+                    </div>
+
+
+                    <div class="method-content">
+
+                        <div class="method-title">
+                            Verify using Face Authentication
+                        </div>
+
+                        <p class="method-description">
+
+                            Use your registered face to securely
+                            verify your identity.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="method-arrow">
+                        →
+                    </div>
+
+                </a>
+
+            {% else %}
+
+                <div class="method-disabled">
+
+                    <div class="method-icon">
+                        😊
+                    </div>
+
+
+                    <div class="method-content">
+
+                        <div class="method-title">
+                            Verify using Face Authentication
+                        </div>
+
+                        <p class="method-description">
+
+                            Face authentication is not enabled
+                            for this account.
+
+                        </p>
+
+
+                        <span class="disabled-badge">
+                            Not Available
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- =================================================
+             BACK
+        ================================================== -->
+
+        <a
+            href="{{ url_for(
+                'auth_bp.forgot_password'
+            ) }}"
+            class="back-link"
+        >
+
+            ← Back to Forgot Password
+
+        </a>
+
+
+        <!-- =================================================
+             SECURITY NOTE
+        ================================================== -->
+
+        <div class="security-note">
+
+            Your recovery information is used only to verify
+            your identity and protect your SecureCloud Learn
+            account.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

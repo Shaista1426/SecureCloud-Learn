@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero" role="main" aria-labelledby="hero-title">
+  <h1 id="hero-title">Welcome to SecureCloud Learn!</h1>
+  <p class="lead">Learn new skills online and manage your courses easily.</p>
+
+  <div class="btns" role="group" aria-label="auth buttons">
+    <!-- Register button redirects to login page as you asked -->
+    <a class="btn" href="{{ url_for('auth_bp.login') }}">Login</a>
+    <a class="btn secondary" href="{{ url_for('auth_bp.login') }}">Register</a>
+  </div>
+
+  <!-- removed waving emoji as requested -->
+</section>
+
+<section class="why" aria-labelledby="why-title">
+  <h2 id="why-title">Why Choose SecureCloud Learn</h2>
+
+  <div class="features" role="list">
+    <div class="feature" role="listitem">
+      <h3>Expert Instructors</h3>
+      <p>Learn from industry experts with practical experience.</p>
+    </div>
+
+    <div class="feature" role="listitem">
+      <h3>Interactive Content</h3>
+      <p>Engaging videos, quizzes, and assignments.</p>
+    </div>
+
+    <div class="feature" role="listitem">
+      <h3>Flexible Learning</h3>
+      <p>Learn at your own pace anytime, anywhere.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

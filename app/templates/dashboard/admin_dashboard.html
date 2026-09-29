@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard | SecureCloud Learn
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .admin-dashboard {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .admin-header {
+        margin-bottom: 30px;
+    }
+
+    .admin-header h1 {
+        margin-bottom: 8px;
+    }
+
+    .admin-header p {
+        color: #666;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 35px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border: 1px solid #eee;
+    }
+
+    .stat-card h3 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        color: #666;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .admin-section {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border: 1px solid #eee;
+    }
+
+    .admin-section h2 {
+        margin-top: 0;
+    }
+
+    .admin-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .admin-action {
+        padding: 12px 18px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        color: #333;
+        background: #f8f8f8;
+    }
+
+    .admin-action:hover {
+        background: #eeeeee;
+    }
+
+    @media (max-width: 900px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+
+
+<div class="admin-dashboard">
+
+    <div class="admin-header">
+
+        <h1>
+            Administration & Security Dashboard
+        </h1>
+
+        <p>
+            Manage users, security controls and platform information.
+        </p>
+
+    </div>
+
+
+    <!-- PLATFORM STATISTICS -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>Total Users</h3>
+
+            <p class="stat-number">
+                {{ total_users }}
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Students</h3>
+
+            <p class="stat-number">
+                {{ total_students }}
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Instructors</h3>
+
+            <p class="stat-number">
+                {{ total_instructors }}
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Total Courses</h3>
+
+            <p class="stat-number">
+                {{ total_courses }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- USER MANAGEMENT -->
+
+    <div class="admin-section">
+
+        <h2>
+            User Management
+        </h2>
+
+        <p>
+            Manage registered users and their assigned roles.
+        </p>
+
+        <div class="admin-actions">
+
+            <a href="#" class="admin-action">
+                View Users
+            </a>
+
+            <a href="#" class="admin-action">
+                Manage Roles
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECURITY MANAGEMENT -->
+
+    <div class="admin-section">
+
+        <h2>
+            Security Management
+        </h2>
+
+        <p>
+            Monitor account security and authentication controls.
+        </p>
+
+        <div class="admin-actions">
+
+            <a href="#" class="admin-action">
+                Account Security
+            </a>
+
+            <a href="#" class="admin-action">
+                MFA Management
+            </a>
+
+            <a href="#" class="admin-action">
+                Security Logs
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

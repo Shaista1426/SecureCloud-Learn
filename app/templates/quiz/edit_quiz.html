@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="
+    max-width:520px;
+    margin:40px auto;
+    background:white;
+    padding:24px;
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+">
+
+    <h2 style="text-align:center; color:var(--green); margin-bottom:20px;">
+        Edit Quiz "{{ quiz.title }}"
+    </h2>
+
+    <form method="POST">
+        <div style="margin-bottom:15px;">
+            <label style="font-weight:600;">Quiz Title:</label>
+            <input type="text" name="title" value="{{ quiz.title }}" required
+                   style="width:100%; padding:10px; margin-top:6px; border-radius:6px; border:1px solid #ccc;">
+        </div>
+
+        <button class="btn" type="submit" style="width:100%; font-size:16px;">
+            Update Quiz
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}

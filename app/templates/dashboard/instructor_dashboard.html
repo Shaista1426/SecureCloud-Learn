@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="color:#2e7d32;">Instructor Dashboard</h1>
+<p style="font-size:1.2em; color:#2e7d32;">
+    Welcome, {{ current_user.display_name }}
+</p>
+
+<!-- Create New Course Button -->
+<a href="{{ url_for('course_bp.create_course') }}"
+   style="display:inline-block; background:#2e7d32; color:white; padding:10px 16px; border-radius:6px;
+          text-decoration:none; margin-bottom:20px;">
+   + Create New Course
+</a>
+
+<hr>
+
+{% if courses %}
+    <div style="display:flex; flex-direction:column; gap:20px;">
+
+        {% for course in courses %}
+            <div style="border:1px solid #ccc; border-radius:8px; padding:15px; background:#f9fff9;">
+
+                <!-- Course Title -->
+                <h2 style="margin-bottom:5px;">
+                    <a href="{{ url_for('course_bp.view_course', course_id=course.id) }}"
+                       style="color:#2e7d32; text-decoration:none;">
+                        {{ course.title }}
+                    </a>
+                </h2>
+
+                <p style="margin:0 0 15px 0;">{{ course.description }}</p>
+
+                <!-- Quizzes Section -->
+                <h3 style="color:#1976d2; margin-bottom:8px;">Quizzes</h3>
+
+                {% if course.quizzes %}
+                    <ul style="margin-left:15px;">
+                        {% for quiz in course.quizzes %}
+                            <li style="margin-bottom:4px;">
+                                <a href="{{ url_for('quiz_bp.view_quiz', quiz_id=quiz.id) }}"
+                                   style="color:#1976d2; text-decoration:none;">
+                                    {{ quiz.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="color:#444;">No quizzes yet.</p>
+                {% endif %}
+
+                <!-- Buttons -->
+                <div style="margin-top:15px; display:flex; flex-wrap:wrap; gap:10px;">
+
+                    <!-- View Course -->
+                    <a href="{{ url_for('course_bp.view_course', course_id=course.id) }}"
+                       style="background:#2e7d32; color:white; padding:8px 12px; border-radius:6px;
+                              text-decoration:none;">
+                       View Course
+                    </a>
+
+                    <!-- View Quizzes -->
+                    <a href="{{ url_for('quiz_bp.view_course_quizzes', course_id=course.id) }}"
+                       style="background:#6c63ff; color:white; padding:8px 12px; border-radius:6px;
+                              text-decoration:none;">
+                        View Quizzes
+                    </a>
+
+                    <!-- Create Quiz (Fixed URL) -->
+                    <a href="{{ url_for('quiz_bp.create_quiz', course_id=course.id) }}"
+                       style="background:#1976d2; color:white; padding:8px 12px; border-radius:6px;
+                              text-decoration:none;">
+                       Create Quiz
+                    </a>
+
+                    <!-- Delete Course -->
+                    <form action="{{ url_for('course_bp.delete_course', course_id=course.id) }}"
+      method="POST"
+      style="display:inline;">
+    <button type="submit"
+            onclick="return confirm('Delete this course?');"
+            style="background:#d9534f; color:white; padding:6px 12px; border-radius:6px; border:none; cursor:pointer;">
+        🗑 Delete
+    </button>
+</form>
+
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+    <p>No courses added yet.</p>
+{% endif %}
+
+{% endblock %}

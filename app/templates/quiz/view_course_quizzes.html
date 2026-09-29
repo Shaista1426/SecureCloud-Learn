@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:850px; margin:30px auto;">
+
+    <!-- Course Title -->
+    <h2 style="text-align:center; color:var(--green); margin-bottom:20px;">{{ course.title }}</h2>
+
+    <!-- Course Description card -->
+    <div style="background:white; padding:18px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.08); margin-bottom:20px;">
+        <h4 style="margin-bottom:10px; color:var(--green);">Course Description</h4>
+        <p style="color:#555;">{{ course.description }}</p>
+    </div>
+
+    <!-- If user is instructor show create quiz button -->
+    {% if current_user.role == 'instructor' %}
+    <div style="text-align:right; margin-bottom:12px;">
+        <a href="{{ url_for('quiz_bp.create_quiz', course_id=course.id) }}"
+           style="display:inline-block; background:#2e7d32; color:white; padding:8px 14px; border-radius:6px; text-decoration:none;">
+           ➕ Create New Quiz
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- Quizzes List -->
+    <div style="background:#fff; padding:12px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+        <h3 style="color:var(--green); margin-top:0; margin-bottom:12px;">Quizzes in this Course</h3>
+
+        {% if course.quizzes %}
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                {% for quiz in course.quizzes %}
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px; border-radius:8px; border:1px solid #eef; background:#fbfbfb;">
+                    <div>
+                        <h4 style="margin:0; color:#2e7d32;">{{ quiz.title }}</h4>
+                        <div style="color:#666; font-size:13px;">Questions: {{ quiz.questions|length }}</div>
+                    </div>
+
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        {% if current_user.role == 'instructor' %}
+                        <a href="{{ url_for('quiz_bp.manage_questions', quiz_id=quiz.id) }}"
+                           style="background:#f0ad4e; color:white; padding:8px 10px; border-radius:6px; text-decoration:none;">📝 Manage</a>
+                        {% endif %}
+
+                        <a href="{{ url_for('quiz_bp.view_quiz', quiz_id=quiz.id) }}"
+                           style="background:#0275d8; color:white; padding:8px 10px; border-radius:6px; text-decoration:none;">👁 Preview</a>
+
+                        {% if current_user.role == 'student' %}
+                        <a href="{{ url_for('student.attempt_quiz', quiz_id=quiz.id) }}"
+                           style="background:#f57c00; color:white; padding:8px 10px; border-radius:6px; text-decoration:none;">Attempt Quiz</a>
+                        {% endif %}
+
+                        {% if current_user.role == 'instructor' %}
+                        <form action="{{ url_for('quiz_bp.delete_quiz', quiz_id=quiz.id) }}" method="POST" style="display:inline;">
+                            <button onclick="return confirm('Delete this quiz?');" style="background:#d9534f; color:white; padding:8px 10px; border-radius:6px; border:none; cursor:pointer;">🗑 Delete</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color:#777; text-align:center; margin:12px 0;">No quizzes created yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

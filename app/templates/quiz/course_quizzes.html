@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 style="margin-bottom:20px;">Quizzes for this Course</h2>
+
+{% if quizzes %}
+    <ul>
+        {% for quiz in quizzes %}
+            <li>
+                <strong>{{ quiz.title }}</strong>
+                <a href="{{ url_for('quiz_bp.view_quiz', quiz_id=quiz.id) }}" class="btn">View</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No quizzes yet. Add one from the course page.</p>
+{% endif %}
+
+{% endblock %}

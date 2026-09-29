@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       AUTHENTICATION CONTAINER
+    ===================================================== */
+
+    .auth-container {
+        width: 90%;
+        max-width: 850px;
+        margin: 40px auto;
+    }
+
+
+    /* =====================================================
+       PAGE TITLE
+    ===================================================== */
+
+    .auth-container h1 {
+        color: #173f63;
+        margin-bottom: 8px;
+        font-size: 30px;
+    }
+
+    .auth-subtitle {
+        color: #555;
+        margin-bottom: 25px;
+        font-size: 16px;
+    }
+
+
+    /* =====================================================
+       CARD
+    ===================================================== */
+
+    .auth-card {
+        background: #ffffff;
+        border: 1px solid #d9e1e8;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+
+    /* =====================================================
+       SECURITY MESSAGE
+    ===================================================== */
+
+    .security-message {
+        background-color: #f5f8fb;
+        border: 1px solid #d9e1e8;
+        border-radius: 6px;
+        padding: 16px 18px;
+        margin-bottom: 28px;
+        color: #374151;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       ACTIVITY REFERENCE
+    ===================================================== */
+
+    .activity-reference {
+        margin-bottom: 25px;
+        color: #374151;
+    }
+
+    .activity-reference strong {
+        color: #173f63;
+    }
+
+
+    /* =====================================================
+       AUTHENTICATION OPTIONS
+    ===================================================== */
+
+    .auth-options {
+        display: flex;
+        gap: 18px;
+        margin-top: 20px;
+    }
+
+    .auth-option {
+        flex: 1;
+        border: 1px solid #d9e1e8;
+        border-radius: 8px;
+        padding: 24px;
+        background-color: #ffffff;
+        text-align: center;
+    }
+
+    .auth-option h2 {
+        color: #173f63;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .auth-option p {
+        color: #555;
+        font-size: 14px;
+        line-height: 1.5;
+        min-height: 45px;
+    }
+
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    .auth-button {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 11px 20px;
+        border-radius: 5px;
+        background-color: #173f63;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .auth-button:hover {
+        background-color: #12334f;
+    }
+
+
+    /* =====================================================
+       UNAVAILABLE OPTION
+    ===================================================== */
+
+    .auth-unavailable {
+        margin-top: 15px;
+        color: #777;
+        font-size: 13px;
+        font-style: italic;
+    }
+
+
+    /* =====================================================
+       CANCEL
+    ===================================================== */
+
+    .cancel-section {
+        margin-top: 25px;
+    }
+
+    .cancel-button {
+        padding: 10px 17px;
+        border: 1px solid #cbd5df;
+        border-radius: 5px;
+        background-color: #ffffff;
+        color: #374151;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .cancel-button:hover {
+        background-color: #f5f7f9;
+    }
+
+
+    /* =====================================================
+       NO AUTHENTICATION AVAILABLE
+    ===================================================== */
+
+    .no-auth {
+        background-color: #fff8e6;
+        border: 1px solid #ead7a0;
+        border-radius: 6px;
+        padding: 15px 18px;
+        color: #5f4b16;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 700px) {
+
+        .auth-options {
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+
+<div class="auth-container">
+
+    <h1>Verify Your Identity</h1>
+
+    <div class="auth-subtitle">
+        Authentication is required before reporting this activity.
+    </div>
+
+
+    <div class="auth-card">
+
+
+        <!-- =================================================
+             SECURITY MESSAGE
+        ================================================== -->
+
+        <div class="security-message">
+
+            <strong>Security Verification</strong><br>
+
+            To protect your account, please verify your identity
+            before submitting this suspicious activity report.
+
+        </div>
+
+
+        <!-- =================================================
+             ACTIVITY REFERENCE
+        ================================================== -->
+
+        <div class="activity-reference">
+
+            You are reporting activity:
+
+            <strong>
+                {{ audit_log.audit_id }}
+            </strong>
+
+        </div>
+
+
+        <!-- =================================================
+             AUTHENTICATION OPTIONS
+        ================================================== -->
+
+        <h2 style="color:#26384a; font-size:20px;">
+            Choose an authentication method
+        </h2>
+
+
+        <div class="auth-options">
+
+
+            <!-- =============================================
+                 FACE AUTHENTICATION
+            ============================================== -->
+
+            <div class="auth-option">
+
+                <h2>
+                    Face Authentication
+                </h2>
+
+                <p>
+                    Verify your identity using your registered
+                    facial authentication.
+                </p>
+
+                {% if face_available %}
+
+                    <span style="
+    display: inline-block;
+    padding: 12px 20px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    color: #6b7280;
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+">
+    Face Authentication
+    <small>(Coming next)</small>
+</span>
+
+                {% else %}
+
+                    <div class="auth-unavailable">
+
+                        Face authentication is not currently
+                        available for your account.
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =============================================
+                 MPIN AUTHENTICATION
+            ============================================== -->
+
+            <div class="auth-option">
+
+                <h2>
+                    MPIN
+                </h2>
+
+                <p>
+                    Verify your identity by entering your
+                    registered MPIN.
+                </p>
+
+                {% if pin_available %}
+
+                    <a
+                        href="{{ url_for(
+                            'dashboard_bp.security_report_pin_auth',
+                            audit_log_id=audit_log.id
+                        ) }}"
+                        class="auth-button">
+
+                        Continue with MPIN
+
+                    </a>
+
+                {% else %}
+
+                    <div class="auth-unavailable">
+
+                        MPIN authentication is not currently
+                        available for your account.
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             NO AUTHENTICATION AVAILABLE
+        ================================================== -->
+
+        {% if not face_available and not pin_available %}
+
+            <div class="no-auth" style="margin-top:25px;">
+
+                No authentication method is currently available
+                for this account. Please configure Face
+                Authentication or an MPIN before reporting
+                suspicious activity.
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             CANCEL
+        ================================================== -->
+
+        <div class="cancel-section">
+
+            <a
+                href="{{ url_for(
+                    'dashboard_bp.report_suspicious_activity',
+                    audit_log_id=audit_log.id
+                ) }}"
+                class="cancel-button">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

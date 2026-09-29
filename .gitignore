@@ -1,0 +1,83 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# =========================
+# Virtual Environments
+# =========================
+.venv/
+.venv_old/
+
+# =========================
+# Environment Variables
+# =========================
+.env
+
+# =========================
+# Flask / Database
+# =========================
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# IDE
+# =========================
+.idea/
+
+# =========================
+# Uploaded Files
+# =========================
+app/static/uploads/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Flask instance data
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# IDE
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Face recognition test files
+test_face.jpg

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width:900px; margin:30px auto; padding:20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <h2 style="color:var(--green); margin:0;">My Courses</h2>
+        <a href="{{ url_for('course_bp.create_course') }}" style="background:#2e7d32; color:white; padding:8px 14px; border-radius:6px; text-decoration:none;">+ Create Course</a>
+    </div>
+
+    {% if courses %}
+    <div style="display:flex; flex-direction:column; gap:12px;">
+        {% for course in courses %}
+        <div style="background:#fff; padding:16px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.06); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <h3 style="margin:0; color:#2e7d32;">{{ course.title }}</h3>
+                <p style="margin:6px 0; color:#555;">{{ course.description }}</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="{{ url_for('course_bp.view_course', course_id=course.id) }}" style="background:#0275d8; color:white; padding:8px 14px; border-radius:6px; text-decoration:none;">View</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p style="color:#777;">You haven't created any courses yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

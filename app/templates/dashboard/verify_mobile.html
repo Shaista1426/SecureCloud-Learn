@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+Verify Mobile Number | SecureCloud Learn
+{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <div class="settings-header">
+
+        <h1>
+            Verify Mobile Number
+        </h1>
+
+        <p>
+            Enter the verification code sent to your registered
+            mobile number.
+        </p>
+
+    </div>
+
+
+    <div class="settings-section">
+
+        <div class="settings-section-title">
+            Mobile Verification
+        </div>
+
+        <div class="settings-card">
+
+            <div class="settings-item">
+
+                <div class="settings-icon">
+                    📱
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Verification Code
+                    </div>
+
+                    <div class="settings-description">
+
+                        A verification code has been sent to:
+
+                        <strong>
+                            {{ user.mobile_number }}
+                        </strong>
+
+                        <br><br>
+
+                        Enter the 6-digit code below to verify
+                        your mobile number.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="POST"
+                style="
+                    padding: 20px;
+                    border-top: 1px solid #f0f1f3;
+                "
+            >
+
+                <div style="margin-bottom:15px;">
+
+                    <label
+                        for="otp"
+                        style="
+                            display:block;
+                            margin-bottom:7px;
+                            font-weight:600;
+                        "
+                    >
+                        Verification Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="otp"
+                        name="otp"
+                        inputmode="numeric"
+                        maxlength="6"
+                        autocomplete="one-time-code"
+                        placeholder="Enter 6-digit code"
+                        required
+                        style="
+                            width:100%;
+                            max-width:300px;
+                            padding:12px;
+                            border:1px solid #d1d5db;
+                            border-radius:8px;
+                            font-size:16px;
+                            letter-spacing:4px;
+                        "
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Verify Mobile Number
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div style="margin-top:25px;">
+
+        <a
+            href="{{ url_for('dashboard_bp.mpin_settings') }}"
+            class="cancel-button"
+        >
+            Back to Mobile & MPIN
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

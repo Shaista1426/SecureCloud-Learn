@@ -1,0 +1,1343 @@
+{% extends "auth_base.html" %}
+
+{% block title %}
+Login – SecureCloud Learn
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <!-- =================================================
+             LOGO
+        ================================================== -->
+
+        <div class="auth-logo">
+
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="SecureCloud Learn"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             HEADING
+        ================================================== -->
+
+        <h1>
+            Welcome Back
+        </h1>
+
+        <p class="auth-subtitle">
+            Sign in to continue to SecureCloud Learn
+        </p>
+
+
+        <!-- =================================================
+             FLASH MESSAGES
+        ================================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="auth-alert {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =================================================
+             LOGIN FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            action="{{ url_for('auth_bp.login') }}"
+            class="auth-form"
+            id="loginForm"
+        >
+
+            {{ form.hidden_tag() }}
+
+
+            <!-- =================================================
+                 EMAIL
+            ================================================== -->
+
+            <div class="form-group">
+
+                {{ form.email.label }}
+
+
+                <div class="email-login-wrapper">
+
+                    {{ form.email(
+                        class="form-control login-email-input",
+                        id="loginEmail",
+                        placeholder="Enter your email address",
+                        autocomplete="email"
+                    ) }}
+
+
+                    <button
+                        type="button"
+                        id="loginVerifyEmailBtn"
+                        class="login-verify-btn"
+                    >
+                        Verify
+                    </button>
+
+                </div>
+
+
+                <!-- EMAIL VERIFICATION RESULT -->
+
+                <div
+                    id="loginEmailVerificationMessage"
+                    class="login-email-verification-message"
+                    role="alert"
+                ></div>
+
+                <!-- =================================================
+     RESEND EMAIL VERIFICATION
+================================================== -->
+
+<div
+    id="resendVerificationContainer"
+    style="display: none;"
+>
+
+    <button
+        type="button"
+        id="resendVerificationBtn"
+        class="resend-verification-btn"
+    >
+        Resend Verification Email
+    </button>
+
+</div>
+
+
+                <!-- EMAIL FIELD ERRORS -->
+
+                {% for error in form.email.errors %}
+
+                    <div class="form-errors">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =================================================
+                 TERMS AND CONDITIONS
+            ================================================== -->
+
+            <div class="terms-checkbox">
+
+                {{ form.terms(
+                    id="loginTerms"
+                ) }}
+
+                <label for="loginTerms">
+
+                    I agree to the
+
+                    <a href="#" target="_blank">
+                        Terms and Conditions
+                    </a>
+
+                </label>
+
+            </div>
+
+
+            <!-- =================================================
+                 PASSWORD
+            ================================================== -->
+
+            <div class="form-group">
+
+                {{ form.password.label }}
+
+
+                <div class="password-wrapper">
+
+                    {{ form.password(
+                        class="form-input",
+                        id="loginPassword",
+                        placeholder="Enter your password",
+                        autocomplete="current-password"
+                    ) }}
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('loginPassword', this)"
+                        aria-label="Show password"
+                        title="Show password"
+                    >
+
+                        <svg
+                            class="eye-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path
+                                d="M2 12s3.5-7 10-7
+                                   10 7 10 7
+                                   -3.5 7-10 7
+                                   -10-7-10-7z"
+                            ></path>
+
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="3"
+                            ></circle>
+
+                            <line
+                                x1="4"
+                                y1="4"
+                                x2="20"
+                                y2="20"
+                            ></line>
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORGOT PASSWORD
+            ================================================== -->
+
+            <div class="forgot-password">
+
+                <a href="{{ url_for('auth_bp.forgot_password') }}">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN BUTTON
+            ================================================== -->
+
+            {{ form.submit(
+                class="auth-button",
+                value="Login"
+            ) }}
+
+
+        </form>
+
+
+        <!-- =================================================
+             OR DIVIDER
+        ================================================== -->
+
+        <div class="divider">
+
+            <span>
+                OR
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             SOCIAL LOGIN
+        ================================================== -->
+
+        <div class="social-login">
+
+            <a
+                href="#"
+                class="social-button"
+                onclick="alert('Google login will be configured next.'); return false;"
+            >
+
+                <span class="social-icon">
+                    G
+                </span>
+
+                Continue with Google
+
+            </a>
+
+
+            <a
+                href="#"
+                class="social-button"
+                onclick="alert('Microsoft login will be configured next.'); return false;"
+            >
+
+                <span class="social-icon">
+                    ▦
+                </span>
+
+                Continue with Microsoft
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             REGISTER
+        ================================================== -->
+
+        <div class="register-section">
+
+            <span>
+                Don't have an account?
+            </span>
+
+            <a href="{{ url_for('auth_bp.register') }}">
+                Create an Account
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             TERMS
+        ================================================== -->
+
+        <p class="terms">
+
+            By continuing, you agree to our
+
+            <a href="#">
+                Terms of Service
+            </a>
+
+            and
+
+            <a href="#">
+                Privacy Policy
+            </a>.
+
+        </p>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     LOGIN PAGE CSS
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   EMAIL + VERIFY BUTTON
+========================================================= */
+
+.email-login-wrapper {
+
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 12px;
+
+    width: 100%;
+
+}
+
+
+/*
+   EMAIL FIELD
+
+   The email field should occupy most of the available
+   horizontal space.
+*/
+
+.email-login-wrapper .login-email-input {
+
+    flex: 1 1 auto !important;
+
+    width: auto !important;
+
+    min-width: 0;
+
+    height: 50px;
+
+    box-sizing: border-box;
+
+}
+
+
+/*
+   VERIFY BUTTON
+
+   Smaller than the previous version so the email field
+   gets more horizontal space.
+*/
+
+.login-verify-btn {
+
+    flex: 0 0 82px;
+
+    width: 82px;
+
+    height: 50px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #2e7d32;
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease,
+        opacity 0.2s ease;
+
+}
+
+
+.login-verify-btn:hover {
+
+    background: #256b29;
+
+}
+
+
+.login-verify-btn:active {
+
+    transform: scale(0.98);
+
+}
+
+
+.login-verify-btn:disabled {
+
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+/* =========================================================
+   EMAIL VERIFICATION MESSAGE
+========================================================= */
+
+.login-email-verification-message {
+
+    display: none;
+
+    margin-top: 10px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.login-email-verification-message.success {
+
+    display: block;
+
+    background: #e8f5e9;
+
+    color: #2e7d32;
+
+    border: 1px solid #c8e6c9;
+
+}
+
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.login-email-verification-message.danger {
+
+    display: block;
+
+    background: #ffebee;
+
+    color: #c62828;
+
+    border: 1px solid #ffcdd2;
+
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.login-email-verification-message.warning {
+
+    display: block;
+
+    background: #fff8e1;
+
+    color: #8d6e00;
+
+    border: 1px solid #ffe082;
+
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.login-email-verification-message.info {
+
+    display: block;
+
+    background: #e3f2fd;
+
+    color: #1565c0;
+
+    border: 1px solid #bbdefb;
+
+}
+
+
+/* =========================================================
+   RESEND VERIFICATION BUTTON
+========================================================= */
+
+.resend-verification-btn {
+
+    width: 100%;
+
+    height: 42px;
+
+    margin-top: 10px;
+
+    padding: 0 15px;
+
+    border: 1px solid #2e7d32;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #2e7d32;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
+
+}
+
+
+.resend-verification-btn:hover {
+
+    background: #2e7d32;
+
+    color: #ffffff;
+
+}
+
+
+.resend-verification-btn:disabled {
+
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+}
+
+/* =========================================================
+   TERMS & CONDITIONS
+========================================================= */
+
+.terms-checkbox {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    margin: 15px 0;
+
+    font-size: 13px;
+
+    color: #6b7280;
+
+}
+
+
+.terms-checkbox input {
+
+    width: 16px;
+
+    height: 16px;
+
+    margin-top: 2px;
+
+    accent-color: #2e7d32;
+
+    cursor: pointer;
+
+}
+
+
+.terms-checkbox label {
+
+    margin: 0;
+
+    cursor: pointer;
+
+}
+
+
+.terms-checkbox a {
+
+    color: #2e7d32;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+}
+
+
+.terms-checkbox a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =========================================================
+   DISABLE NATIVE PASSWORD REVEAL BUTTON
+========================================================= */
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+
+    display: none;
+
+}
+
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    position: absolute;
+
+}
+
+
+/* =========================================================
+   MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .email-login-wrapper {
+
+        gap: 8px;
+
+    }
+
+    .login-verify-btn {
+
+        flex: 0 0 76px;
+
+        width: 76px;
+
+        font-size: 14px;
+
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =================================================
+           GET ELEMENTS
+        ================================================= */
+
+        const emailInput =
+            document.getElementById(
+                "loginEmail"
+            );
+
+
+        const verifyButton =
+            document.getElementById(
+                "loginVerifyEmailBtn"
+            );
+
+
+        const messageBox =
+    document.getElementById(
+        "loginEmailVerificationMessage"
+    );
+
+
+const resendContainer =
+    document.getElementById(
+        "resendVerificationContainer"
+    );
+
+
+const resendButton =
+    document.getElementById(
+        "resendVerificationBtn"
+    );
+
+
+const loginForm =
+    document.getElementById(
+        "loginForm"
+    );
+
+
+        /* =================================================
+           CHECK THAT ELEMENTS EXIST
+        ================================================= */
+
+        if (
+    !emailInput ||
+    !verifyButton ||
+    !messageBox ||
+    !resendContainer ||
+    !resendButton
+) {
+
+    console.error(
+        "Login email verification elements were not found."
+    );
+
+    return;
+
+}
+
+resendContainer.style.display =
+    "none";
+
+
+        /* =================================================
+           GET CSRF TOKEN
+        ================================================= */
+
+        let csrfToken = "";
+
+
+        if (loginForm) {
+
+            const csrfInput =
+                loginForm.querySelector(
+                    'input[name="csrf_token"]'
+                );
+
+
+            if (csrfInput) {
+
+                csrfToken =
+                    csrfInput.value;
+
+            }
+
+        }
+
+
+        /* =================================================
+           VERIFY EMAIL BUTTON
+        ================================================= */
+
+        verifyButton.addEventListener(
+            "click",
+            async function () {
+
+
+                /* =========================================
+                   GET EMAIL
+                ========================================= */
+
+                const email =
+                    emailInput.value
+                    .trim()
+                    .toLowerCase();
+
+                    resendContainer.style.display =
+    "none";
+
+
+                console.log(
+                    "LOGIN EMAIL ENTERED:",
+                    email
+                );
+
+                /* =================================================
+   RESEND VERIFICATION EMAIL
+================================================= */
+
+resendButton.addEventListener(
+    "click",
+    async function () {
+
+        const email =
+            emailInput.value
+            .trim()
+            .toLowerCase();
+
+
+        if (!email) {
+
+            showLoginEmailMessage(
+                "Please enter your email address first.",
+                "warning"
+            );
+
+            resendContainer.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        /* =========================================
+           DISABLE BUTTON
+        ========================================= */
+
+        resendButton.disabled =
+            true;
+
+        resendButton.textContent =
+            "Sending...";
+
+
+        showLoginEmailMessage(
+            "Sending verification email...",
+            "info"
+        );
+
+
+        /* =========================================
+           SEND REQUEST
+        ========================================= */
+
+        try {
+
+            const response =
+                await fetch(
+                    "{{ url_for('auth_bp.resend_verification') }}",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "X-Requested-With":
+                                "XMLHttpRequest",
+
+                            "X-CSRFToken":
+                                csrfToken
+
+                        },
+
+                        body: JSON.stringify({
+                            email: email
+                        })
+                    }
+                );
+
+
+            console.log(
+                "RESEND VERIFICATION HTTP STATUS:",
+                response.status
+            );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "RESEND VERIFICATION RESPONSE:",
+                data
+            );
+
+
+            /* =====================================
+               SUCCESS
+            ===================================== */
+
+            if (
+                data.success
+            ) {
+
+                showLoginEmailMessage(
+                    "✓ " +
+                    data.message,
+                    "success"
+                );
+
+            }
+
+
+            /* =====================================
+               ERROR
+            ===================================== */
+
+            else {
+
+                showLoginEmailMessage(
+                    data.message ||
+                    "Unable to resend the verification email.",
+                    "danger"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           NETWORK / SERVER ERROR
+        ========================================= */
+
+        catch (error) {
+
+            console.error(
+                "Resend verification error:",
+                error
+            );
+
+
+            showLoginEmailMessage(
+                "Unable to resend the verification email right now. Please try again.",
+                "danger"
+            );
+
+        }
+
+
+        /* =========================================
+           ENABLE BUTTON
+        ========================================= */
+
+        finally {
+
+            resendButton.disabled =
+                false;
+
+            resendButton.textContent =
+                "Resend Verification Email";
+
+        }
+
+    }
+);
+
+
+                /* =========================================
+                   EMPTY EMAIL
+                ========================================= */
+
+                if (!email) {
+
+                    showLoginEmailMessage(
+                        "Please enter your email address first.",
+                        "warning"
+                    );
+
+                    emailInput.focus();
+
+                    return;
+
+                }
+
+
+                /* =========================================
+                   EMAIL FORMAT
+                ========================================= */
+
+                const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                if (
+                    !emailPattern.test(email)
+                ) {
+
+                    showLoginEmailMessage(
+                        "Please enter a valid email address.",
+                        "danger"
+                    );
+
+                    emailInput.focus();
+
+                    return;
+
+                }
+
+
+                /* =========================================
+                   DISABLE BUTTON
+                ========================================= */
+
+                verifyButton.disabled = true;
+
+                verifyButton.textContent =
+                    "Checking...";
+
+
+                showLoginEmailMessage(
+                    "Checking email address...",
+                    "info"
+                );
+
+
+                /* =========================================
+                   CREATE FORM DATA
+                ========================================= */
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "email",
+                    email
+                );
+
+
+                /*
+                   IMPORTANT:
+
+                   Flask-WTF may require the CSRF token
+                   for AJAX POST requests.
+
+                   Therefore include it when available.
+                */
+
+                if (csrfToken) {
+
+                    formData.append(
+                        "csrf_token",
+                        csrfToken
+                    );
+
+                }
+
+
+                /* =========================================
+                   SEND REQUEST TO FLASK
+                ========================================= */
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "{{ url_for('auth_bp.check_email') }}",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "X-Requested-With":
+                                        "XMLHttpRequest"
+                                },
+
+                                body: formData
+                            }
+                        );
+
+
+                    console.log(
+                        "LOGIN EMAIL VERIFICATION HTTP STATUS:",
+                        response.status
+                    );
+
+
+                    /* =====================================
+                       IMPORTANT FIX
+
+                       Convert Flask JSON response into
+                       JavaScript object.
+
+                       This was missing in the previous
+                       version.
+                    ===================================== */
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "LOGIN EMAIL VERIFICATION RESPONSE:",
+                        data
+                    );
+
+
+                    /* =====================================
+                       VERIFIED EMAIL
+                    ===================================== */
+
+                    if (
+                        data.status === "verified"
+                    ) {
+
+                        showLoginEmailMessage(
+                            "✓ Email address is registered and verified.",
+                            "success"
+                        );
+
+                    }
+
+
+                    /* =====================================
+                       EMAIL EXISTS BUT NOT VERIFIED
+                    ===================================== */
+
+                    else if (
+    data.status === "unverified"
+) {
+
+    showLoginEmailMessage(
+        "✗ This email is registered but has not been verified.",
+        "warning"
+    );
+
+    resendContainer.style.display =
+        "block";
+
+}
+
+
+                    /* =====================================
+                       EMAIL DOES NOT EXIST
+                    ===================================== */
+
+                    else if (
+                        data.status === "available"
+                    ) {
+
+                        showLoginEmailMessage(
+                            "✗ No registered account exists with this email address.",
+                            "danger"
+                        );
+
+                    }
+
+
+                    /* =====================================
+                       PENDING REGISTRATION
+                    ===================================== */
+
+                    else if (
+                        data.status === "pending"
+                    ) {
+
+                        showLoginEmailMessage(
+                            "⚠ This email has a pending registration verification.",
+                            "warning"
+                        );
+
+                    }
+
+
+                    /* =====================================
+                       EMPTY
+                    ===================================== */
+
+                    else if (
+                        data.status === "empty"
+                    ) {
+
+                        showLoginEmailMessage(
+                            data.message ||
+                            "Please enter an email address.",
+                            "warning"
+                        );
+
+                    }
+
+
+                    /* =====================================
+                       INVALID EMAIL
+                    ===================================== */
+
+                    else if (
+                        data.status === "invalid"
+                    ) {
+
+                        showLoginEmailMessage(
+                            data.message ||
+                            "Please enter a valid email address.",
+                            "danger"
+                        );
+
+                    }
+
+
+                    /* =====================================
+                       OTHER RESPONSE
+                    ===================================== */
+
+                    else {
+
+                        showLoginEmailMessage(
+                            data.message ||
+                            "Unable to verify this email address.",
+                            "danger"
+                        );
+
+                    }
+
+
+                }
+
+
+                /* =========================================
+                   NETWORK / SERVER ERROR
+                ========================================= */
+
+                catch (error) {
+
+                    console.error(
+                        "Login email verification error:",
+                        error
+                    );
+
+
+                    showLoginEmailMessage(
+                        "Unable to verify this email right now. Please try again.",
+                        "danger"
+                    );
+
+                }
+
+
+                /* =========================================
+                   ENABLE BUTTON AGAIN
+                ========================================= */
+
+                finally {
+
+                    verifyButton.disabled =
+                        false;
+
+                    verifyButton.textContent =
+                        "Verify";
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           MESSAGE HELPER
+        ================================================= */
+
+        function showLoginEmailMessage(
+            message,
+            type
+        ) {
+
+            messageBox.textContent =
+                message;
+
+
+            messageBox.className =
+                "login-email-verification-message " +
+                type;
+
+        }
+
+
+    }
+
+);
+
+</script>
+
+
+{% endblock %}

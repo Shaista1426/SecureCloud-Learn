@@ -1,0 +1,69 @@
+{# templates/dashboard/view_course.html #}
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-3" style="color:#2e7d32;">{{ course.title }}</h2>
+<p>{{ course.description }}</p>
+
+{# Optional: show instructor if available #}
+{% if course.author %}
+    <p><small>Instructor: {{ course.author.name }}</small></p>
+{% endif %}
+
+<hr>
+
+<h4>Course Content</h4>
+{# If you have course.sections or course.content, display here #}
+{% if course.content %}
+    <div class="mb-4">
+        {{ course.content | safe }}
+    </div>
+{% endif %}
+
+<h4 class="mt-4">Quizzes</h4>
+<div class="list-group">
+    {% for quiz in quizzes %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ quiz.title }}</strong><br>
+                {% if quiz.description %}
+                    <small>{{ quiz.description }}</small>
+                {% endif %}
+            </div>
+
+            <div>
+                {% if quiz.id in attempted_quiz_ids %}
+                    <a href="{{ url_for('quiz_bp.view_quiz_result', quiz_id=quiz.id) }}" class="btn btn-success btn-sm">
+                        View Result
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('quiz_bp.attempt_quiz', quiz_id=quiz.id) }}" class="btn btn-warning btn-sm">
+                        Attempt Quiz
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+{# Certificate button if all quizzes attempted #}
+{% set quiz_ids = quizzes|map(attribute='id')|list %}
+{% set remaining = [] %}
+{% for qid in quiz_ids %}
+    {% if qid not in attempted_quiz_ids %}
+        {% set _ = remaining.append(qid) %}
+    {% endif %}
+{% endfor %}
+
+{% if remaining|length == 0 %}
+    <p>All quizzes attempted</p>
+{% endif %}
+
+    <a href="{{ url_for('course_bp.certificate', course_id=course.id) }}" class="btn btn-success mt-3">
+        Download Completion Certificate
+    </a>
+{% endif %}
+
+{% endblock %}

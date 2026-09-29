@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}
+Settings | SecureCloud Learn
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       SETTINGS PAGE
+    ===================================================== */
+
+    .settings-page {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .settings-header {
+        margin-bottom: 30px;
+    }
+
+    .settings-header h1 {
+        margin: 0 0 8px 0;
+        color: #1f2937;
+        font-size: 28px;
+    }
+
+    .settings-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       SETTINGS SECTION
+    ===================================================== */
+
+    .settings-section {
+        margin-bottom: 28px;
+    }
+
+    .settings-section-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 10px;
+    }
+
+
+    /* =====================================================
+       SETTINGS CARD
+    ===================================================== */
+
+    .settings-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+
+    /* =====================================================
+       SETTINGS ITEM
+    ===================================================== */
+
+    .settings-item {
+        display: flex;
+        align-items: center;
+
+        padding: 18px 20px;
+
+        border-bottom: 1px solid #f0f1f3;
+
+        transition: background 0.2s ease;
+    }
+
+    .settings-item:last-child {
+        border-bottom: none;
+    }
+
+    .settings-item:hover {
+        background: #fafcfb;
+    }
+
+
+    /* =====================================================
+       ICON
+    ===================================================== */
+
+    .settings-icon {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 10px;
+
+        background: #edf7ef;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 19px;
+
+        margin-right: 15px;
+
+        flex-shrink: 0;
+    }
+
+
+    /* =====================================================
+       TEXT
+    ===================================================== */
+
+    .settings-info {
+        flex: 1;
+    }
+
+    .settings-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 4px;
+    }
+
+    .settings-description {
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.4;
+    }
+
+
+    /* =====================================================
+       RIGHT SIDE
+    ===================================================== */
+
+    .settings-action {
+        margin-left: 20px;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+
+        font-weight: 700;
+    }
+
+    .status-enabled {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-disabled {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+
+    /* =====================================================
+       ARROW
+    ===================================================== */
+
+    .settings-arrow {
+        color: #9ca3af;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .settings-item {
+            padding: 15px;
+        }
+
+        .settings-description {
+            font-size: 12px;
+        }
+
+        .settings-action {
+            margin-left: 10px;
+        }
+
+        .settings-action .status-badge {
+            display: none;
+        }
+
+    }
+
+</style>
+
+
+<div class="settings-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="settings-header">
+
+        <h1>
+            Settings
+        </h1>
+
+        <p>
+            Manage your account, security and preferences.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         ACCOUNT
+    ================================================== -->
+
+    <div class="settings-section">
+
+        <div class="settings-section-title">
+            Account
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <!-- PROFILE -->
+
+            <a
+                href="#"
+                class="settings-item"
+            >
+
+                <div class="settings-icon">
+                    👤
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Profile
+                    </div>
+
+                    <div class="settings-description">
+                        Manage your personal information and account details.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- PASSWORD -->
+
+            <a
+                href="#"
+                class="settings-item"
+            >
+
+                <div class="settings-icon">
+                    🔑
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Password
+                    </div>
+
+                    <div class="settings-description">
+                        Change your account password and manage password security.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         SECURITY
+    ================================================== -->
+
+    <div class="settings-section">
+
+        <div class="settings-section-title">
+            Security
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <!-- TWO FACTOR -->
+
+           <a
+    href="{{ url_for('dashboard_bp.mfa_settings') }}"
+    class="settings-item"
+>
+
+                <div class="settings-icon">
+                    🛡️
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Two-Factor Authentication
+                    </div>
+
+                    <div class="settings-description">
+                        Add an additional layer of security to your account.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    {% if current_user.mfa_enabled %}
+
+    <span class="status-badge status-enabled">
+        Enabled
+    </span>
+
+{% else %}
+
+    <span class="status-badge status-disabled">
+        Disabled
+    </span>
+
+{% endif %}
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- PIN SECURITY -->
+
+<a
+    href="{{ url_for('auth_bp.change_pin') }}"
+    class="settings-item"
+>
+
+    <div class="settings-icon">
+        🔢
+    </div>
+
+    <div class="settings-info">
+
+        <div class="settings-name">
+            PIN Security
+        </div>
+
+        <div class="settings-description">
+            Set or change your 4-digit security PIN.
+        </div>
+
+    </div>
+
+    <div class="settings-action">
+
+        {% if current_user.pin %}
+
+            <span class="status-badge status-enabled">
+                Configured
+            </span>
+
+        {% else %}
+
+            <span class="status-badge status-disabled">
+                Not configured
+            </span>
+
+        {% endif %}
+
+        <span class="settings-arrow">
+            ›
+        </span>
+
+    </div>
+
+</a>
+
+            <!-- MPIN AUTHENTICATION -->
+
+<a
+    href="{{ url_for('dashboard_bp.mpin_settings') }}"
+    class="settings-item"
+>
+
+    <div class="settings-icon">
+        📱
+    </div>
+
+    <div class="settings-info">
+
+        <div class="settings-name">
+            Mobile MPIN
+        </div>
+
+        <div class="settings-description">
+            Set or change your mobile number and MPIN for
+            suspicious activity authentication.
+        </div>
+
+    </div>
+
+    <div class="settings-action">
+
+        {% if current_user.mobile_number and current_user.mpin %}
+
+            <span class="status-badge status-enabled">
+                Configured
+            </span>
+
+        {% else %}
+
+            <span class="status-badge status-disabled">
+                Not configured
+            </span>
+
+        {% endif %}
+
+        <span class="settings-arrow">
+            ›
+        </span>
+
+    </div>
+
+</a>
+
+            <!-- SECURITY ACTIVITY -->
+
+            <a
+                href="{{ url_for('dashboard_bp.security_activity') }}"
+                class="settings-item"
+            >
+
+                <div class="settings-icon">
+                    🛡️
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Security Activity
+                    </div>
+
+                    <div class="settings-description">
+                        Review recent security activity on your account.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- FACE AUTHENTICATION -->
+
+            <a
+                href="{{ url_for('dashboard_bp.face_settings') }}"
+                class="settings-item"
+            >
+
+                <div class="settings-icon">
+                    😊
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Face Authentication
+                    </div>
+
+                    <div class="settings-description">
+                        Use face verification as an additional account recovery method.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    {% if current_user.face_enabled %}
+
+                        <span class="status-badge status-enabled">
+                            Enabled
+                        </span>
+
+                    {% else %}
+
+                        <span class="status-badge status-disabled">
+                            Disabled
+                        </span>
+
+                    {% endif %}
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PREFERENCES
+    ================================================== -->
+
+    <div class="settings-section">
+
+        <div class="settings-section-title">
+            Preferences
+        </div>
+
+
+        <div class="settings-card">
+
+
+            <!-- NOTIFICATIONS -->
+
+            <a
+                href="#"
+                class="settings-item"
+            >
+
+                <div class="settings-icon">
+                    🔔
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Notifications
+                    </div>
+
+                    <div class="settings-description">
+                        Manage notifications and communication preferences.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- LANGUAGE -->
+
+            <a
+                href="#"
+                class="settings-item"
+            >
+
+                <div class="settings-icon">
+                    🌐
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Language
+                    </div>
+
+                    <div class="settings-description">
+                        Choose your preferred language.
+                    </div>
+
+                </div>
+
+                <div class="settings-action">
+
+                    <span class="settings-arrow">
+                        ›
+                    </span>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

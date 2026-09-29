@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+
+    <h2>1. Introduction to Data Science</h2>
+    <p>Data Science combines statistics, programming, and domain knowledge to extract insights from data.</p>
+
+    <h2>2. Python Libraries</h2>
+    <pre>
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+    </pre>
+
+    <h2>3. Data Analysis Example</h2>
+    <pre>
+data = pd.read_csv('data.csv')
+print(data.head())
+print(data.describe())
+    </pre>
+
+    <h2>4. Data Visualization</h2>
+    <pre>
+plt.plot(data['Age'], data['Salary'])
+plt.xlabel('Age')
+plt.ylabel('Salary')
+plt.show()
+    </pre>
+
+    <h2>5. Mini Project</h2>
+    <p>Analyze a sample dataset of employees and plot salary vs age graph.</p>
+
+    <h2>6. Video Tutorial</h2>
+    <iframe src="https://www.youtube.com/embed/r-uOLxNrNk8" title="Data Science Basics" width="100%" height="400"></iframe>
+</div>
+{% endblock %}

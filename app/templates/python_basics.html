@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+
+    <h2>1. Introduction to Python</h2>
+    <p>Python is a high-level, interpreted programming language...</p>
+    <img src="{{ url_for('static', filename='images/python-logo.png') }}" alt="Python Logo" style="width:200px;display:block;margin:10px auto;">
+
+    <h2>2. Setting Up Python</h2>
+    <p>Download Python from <a href="https://www.python.org" target="_blank">python.org</a> and install it...</p>
+    <pre>print("Hello, Python!")</pre>
+
+    <h2>3. Variables & Data Types</h2>
+    <pre>
+name = "Alice"
+age = 20
+pi = 3.14
+is_student = True
+    </pre>
+
+    <h2>4. Conditional Statements</h2>
+    <pre>
+age = 18
+if age >= 18:
+    print("You are an adult")
+else:
+    print("You are a minor")
+    </pre>
+
+    <h2>5. Loops</h2>
+    <pre>
+for i in range(5):
+    print(i)
+
+count = 0
+while count < 3:
+    print(count)
+    count += 1
+    </pre>
+
+    <h2>6. Mini Project</h2>
+    <pre>
+name = input("Enter your name: ")
+age = int(input("Enter your age: "))
+
+print(f"Hello, {name}!")
+if age >= 18:
+    print("You are an adult.")
+else:
+    print("You are a minor.")
+    </pre>
+
+    <h2>7. Video Tutorial</h2>
+    <iframe src="https://www.youtube.com/embed/_uQrJ0TkZlc" title="Python Basics"></iframe>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{{% extends "base.html" %}
+
+{% block content %}
+<div class="quiz-container">
+    <h1 class="quiz-title">Manage Questions for "{{ quiz.title }}"</h1>
+
+    {% if questions %}
+        {% for question in questions %}
+            <div class="question-card">
+                <p class="question-text"><strong>Q{{ loop.index }}:</strong> {{ question.question_text }}</p>
+                <ul class="options-list">
+                    <li {% if question.correct_option == 'option1' %}class="correct"{% endif %}>{{ question.option1 }}</li>
+                    <li {% if question.correct_option == 'option2' %}class="correct"{% endif %}>{{ question.option2 }}</li>
+                    <li {% if question.correct_option == 'option3' %}class="correct"{% endif %}>{{ question.option3 }}</li>
+                    <li {% if question.correct_option == 'option4' %}class="correct"{% endif %}>{{ question.option4 }}</li>
+                </ul>
+                <div class="button-group">
+                    <a href="{{ url_for('quiz_bp.edit_question', question_id=question.id) }}" class="btn btn-edit">Edit</a>
+
+                    <form action="{{ url_for('quiz_bp.delete_question', question_id=question.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No questions added yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('quiz_bp.add_question', quiz_id=quiz.id) }}" class="btn">Add Another Question</a>
+</div>
+
+<style>
+.quiz-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.quiz-title {
+    font-size: 28px;
+    color: #2a7f4f;
+    margin-bottom: 20px;
+}
+
+.question-card {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid #2a7f4f;
+}
+
+.question-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.options-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.options-list li {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.options-list li.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    font-weight: bold;
+}
+
+.button-group {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-edit { background-color: #2a7f4f; }
+.btn-edit:hover { background-color: #246b42; }
+
+.btn-delete { background-color: #d32f2f; border: none; }
+.btn-delete:hover { background-color: #b02a2a; }
+</style>
+{% endblock %}

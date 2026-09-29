@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+        SecureCloud Learn
+        {% endblock %}
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4fbf5 0%,
+                    #ffffff 50%,
+                    #eef8f0 100%
+                );
+
+            color: #1f2937;
+
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           AUTHENTICATION PAGE
+        ===================================================== */
+
+        .auth-page {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        /* =====================================================
+           TOP BRAND
+        ===================================================== */
+
+        .auth-header {
+
+            height: 76px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 55px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e5e7eb;
+
+        }
+
+
+        .auth-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .auth-brand img {
+
+            width: 42px;
+
+            height: 42px;
+
+            object-fit: contain;
+
+        }
+
+
+        .auth-brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .auth-brand-name {
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            color: #2e7d32;
+
+        }
+
+
+        .auth-brand-subtitle {
+
+            font-size: 11px;
+
+            color: #8a94a3;
+
+            margin-top: 2px;
+
+        }
+
+
+        /* =====================================================
+           MAIN AUTH AREA
+        ===================================================== */
+
+        .auth-main {
+
+            flex: 1;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 45px 20px;
+
+        }
+
+
+        /* =====================================================
+           AUTH CARD
+        ===================================================== */
+
+        .auth-container {
+
+            width: 100%;
+
+            display: flex;
+
+            justify-content: center;
+
+        }
+
+
+        .auth-card {
+
+            width: 430px;
+
+            max-width: 100%;
+
+            background: #ffffff;
+
+            border: 1px solid #e4e9e5;
+
+            border-radius: 16px;
+
+            padding: 38px 40px;
+
+            box-shadow:
+                0 10px 35px rgba(31, 41, 55, 0.08);
+
+        }
+
+
+        /* =====================================================
+           LOGO
+        ===================================================== */
+
+        .auth-logo {
+
+            text-align: center;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .auth-logo img {
+
+            width: 78px;
+
+            height: 78px;
+
+            object-fit: contain;
+
+        }
+
+
+        /* =====================================================
+           HEADINGS
+        ===================================================== */
+
+        .auth-card h1 {
+
+            margin: 0;
+
+            text-align: center;
+
+            font-size: 25px;
+
+            color: #17202a;
+
+        }
+
+
+        .auth-subtitle {
+
+            text-align: center;
+
+            margin: 8px 0 28px;
+
+            font-size: 14px;
+
+            color: #7b8794;
+
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .auth-form {
+
+            width: 100%;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 17px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+        }
+
+
+        .form-input {
+
+            width: 100%;
+
+            height: 46px;
+
+            padding: 0 13px;
+
+            border: 1px solid #d9dee5;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            background: #ffffff;
+
+            transition: 0.2s;
+
+        }
+
+
+        .form-input:focus {
+
+            border-color: #2e7d32;
+
+            box-shadow:
+                0 0 0 3px rgba(46, 125, 50, 0.08);
+
+        }
+
+
+        /* =====================================================
+           FORGOT PASSWORD
+        ===================================================== */
+
+        .forgot-password {
+
+            text-align: right;
+
+            margin-top: -5px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .forgot-password a {
+
+            color: #2e7d32;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .forgot-password a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+        ===================================================== */
+
+        .auth-button {
+
+            width: 100%;
+
+            height: 46px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #2e7d32;
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .auth-button:hover {
+
+            background: #256b29;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =====================================================
+           DIVIDER
+        ===================================================== */
+
+        .divider {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin: 25px 0;
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+        }
+
+
+        .divider::before,
+        .divider::after {
+
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: #e5e7eb;
+
+        }
+
+
+        /* =====================================================
+           SOCIAL LOGIN
+        ===================================================== */
+
+        .social-login {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+
+        .social-button {
+
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            border: 1px solid #d9dee5;
+
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            color: #374151;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .social-button:hover {
+
+            background: #f8faf9;
+
+            border-color: #b9c6bb;
+
+        }
+
+
+        .social-icon {
+
+            font-weight: 700;
+
+            font-size: 17px;
+
+        }
+
+
+        /* =====================================================
+           REGISTER
+        ===================================================== */
+
+        .register-section {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 13px;
+
+            color: #6b7280;
+
+        }
+
+
+        .register-section a {
+
+            color: #2e7d32;
+
+            font-weight: 600;
+
+            margin-left: 4px;
+
+        }
+
+
+        .register-section a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           TERMS
+        ===================================================== */
+
+        .terms {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+            color: #9ca3af;
+
+        }
+
+
+        .terms a {
+
+            color: #6b7280;
+
+        }
+
+
+        .terms a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           FLASH MESSAGE
+        ===================================================== */
+
+        .auth-alert {
+
+            padding: 10px 12px;
+
+            border-radius: 7px;
+
+            margin-bottom: 16px;
+
+            font-size: 13px;
+
+        }
+
+
+        .auth-alert.success {
+
+            background: #edf7ef;
+
+            color: #256b29;
+
+        }
+
+
+        .auth-alert.error,
+        .auth-alert.danger {
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+        }
+
+
+        .auth-alert.warning {
+
+            background: #fff7ed;
+
+            color: #c2410c;
+
+        }
+
+
+        .auth-alert.info {
+
+            background: #eff6ff;
+
+            color: #1d4ed8;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .auth-footer {
+
+            padding: 18px;
+
+            text-align: center;
+
+            border-top: 1px solid #e5e7eb;
+
+            background: #ffffff;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .auth-header {
+
+                padding: 0 20px;
+
+            }
+
+
+            .auth-card {
+
+                padding: 30px 22px;
+
+                border-radius: 12px;
+
+                box-shadow: none;
+
+            }
+
+
+            .auth-main {
+
+                padding: 25px 15px;
+
+            }
+
+        }
+
+        /* ============================================================
+   PASSWORD VISIBILITY TOGGLE
+============================================================ */
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper .form-input,
+.password-wrapper .form-control,
+.password-wrapper .password-input {
+    width: 100%;
+    padding-right: 48px;
+}
+
+
+/* ============================================================
+   EYE BUTTON
+============================================================ */
+
+.password-toggle {
+
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #6b7280;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+
+    z-index: 2;
+}
+
+
+.password-toggle:hover {
+
+    color: #2e7d32;
+
+    background: #f1f7f1;
+}
+
+
+.password-toggle:focus {
+
+    outline: none;
+
+    color: #2e7d32;
+
+    box-shadow:
+        0 0 0 2px rgba(46, 125, 50, 0.15);
+}
+
+
+/* ============================================================
+   EYE ICON
+============================================================ */
+
+.eye-icon {
+
+    width: 19px;
+
+    height: 19px;
+
+    pointer-events: none;
+
+    stroke: currentColor;
+
+    fill: none;
+
+    stroke-width: 2;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+}
+
+    </style>
+
+
+    {% block head %}{% endblock %}
+
+</head>
+
+
+<body>
+
+<div class="auth-page">
+
+
+    <!-- HEADER -->
+
+    <header class="auth-header">
+
+        <div class="auth-brand">
+
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="SecureCloud Learn"
+            >
+
+            <div class="auth-brand-text">
+
+                <div class="auth-brand-name">
+                    SecureCloud Learn
+                </div>
+
+                <div class="auth-brand-subtitle">
+                    Secure Digital Learning
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="auth-main">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="auth-footer">
+
+        © 2026 SecureCloud Learn
+        · Cloud Computing & Cybersecurity Project
+
+    </footer>
+
+</div>
+
+
+{% block scripts %}
+{% endblock %}
+
+
+<script>
+
+function togglePassword(inputId, button) {
+
+    const passwordInput =
+        document.getElementById(inputId);
+
+    if (!passwordInput) {
+        return;
+    }
+
+
+    /* =====================================================
+       SHOW PASSWORD
+    ===================================================== */
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        button.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+        button.setAttribute(
+            "title",
+            "Hide password"
+        );
+
+        button.innerHTML = `
+            <svg
+                class="eye-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path
+                    d="M2 12s3.5-7 10-7
+                       10 7 10 7
+                       -3.5 7-10 7
+                       -10-7-10-7z"
+                ></path>
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                ></circle>
+            </svg>
+        `;
+
+    }
+
+
+    /* =====================================================
+       HIDE PASSWORD
+    ===================================================== */
+
+    else {
+
+        passwordInput.type = "password";
+
+        button.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+        button.setAttribute(
+            "title",
+            "Show password"
+        );
+
+        button.innerHTML = `
+            <svg
+                class="eye-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path
+                    d="M2 12s3.5-7 10-7
+                       10 7 10 7
+                       -3.5 7-10 7
+                       -10-7-10-7z"
+                ></path>
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                ></circle>
+
+                <line
+                    x1="4"
+                    y1="4"
+                    x2="20"
+                    y2="20"
+                ></line>
+            </svg>
+        `;
+    }
+}
+</script>
+</body>
+
+</html>

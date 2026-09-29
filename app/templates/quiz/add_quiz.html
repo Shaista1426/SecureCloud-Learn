@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="quiz-container">
+    <h1>Add Quiz to: {{ course.title }}</h1>
+
+    {% if not quiz %}
+    <!-- Step 1: Create Quiz -->
+    <form method="POST">
+        <div class="form-group">
+            <label for="quiz_title">Quiz Title</label>
+            <input type="text" name="quiz_title" id="quiz_title" class="form-control" placeholder="Enter quiz title" required>
+        </div>
+        <button type="submit" class="btn btn-success">Create Quiz</button>
+    </form>
+    {% else %}
+    <!-- Step 2: Add Multiple Questions -->
+    <h2>Quiz: {{ quiz.title }}</h2>
+
+    <div id="questions-container">
+        <div class="question-form">
+            <input type="text" name="question[]" class="form-control question-input" placeholder="Enter question" required>
+            <input type="text" name="option1[]" class="form-control" placeholder="Option 1" required>
+            <input type="text" name="option2[]" class="form-control" placeholder="Option 2" required>
+            <input type="text" name="option3[]" class="form-control" placeholder="Option 3" required>
+            <input type="text" name="option4[]" class="form-control" placeholder="Option 4" required>
+            <select name="correct_answer[]" class="form-control" required>
+                <option value="">Select correct option</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+                <option value="option4">Option 4</option>
+            </select>
+        </div>
+    </div>
+
+    <button id="add-question-btn" class="btn btn-primary" type="button">Add Another Question</button>
+    <button id="submit-quiz-btn" class="btn btn-success" type="button">Submit All Questions</button>
+    {% endif %}
+</div>
+
+<style>
+.quiz-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.quiz-container h1, .quiz-container h2 { color: #2a7f4f; margin-bottom: 20px; }
+.form-group, .question-form { margin-bottom: 15px; }
+.form-control { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 8px; }
+.btn-success { background-color: #2a7f4f; color: white; padding: 10px 18px; border-radius: 6px; font-weight: 600; border: none; }
+.btn-success:hover { background-color: #246b42; }
+.btn-primary { background-color: #1e88e5; color: white; padding: 10px 18px; border-radius: 6px; border: none; }
+.btn-primary:hover { background-color: #1565c0; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addBtn = document.getElementById('add-question-btn');
+    const submitBtn = document.getElementById('submit-quiz-btn');
+    const container = document.getElementById('questions-container');
+
+    addBtn.addEventListener('click', function() {
+        const newQuestion = container.querySelector('.question-form').cloneNode(true);
+        // Clear the input values
+        newQuestion.querySelectorAll('input').forEach(i => i.value = '');
+        newQuestion.querySelector('select').value = '';
+        container.appendChild(newQuestion);
+    });
+
+    submitBtn.addEventListener('click', function() {
+        // Build a form dynamically to POST all questions
+        const form = document.createElement('form');
+        form.method = 'POST';
+
+        container.querySelectorAll('.question-form').forEach(q => {
+            q.querySelectorAll('input, select').forEach(input => {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = input.name;
+                hiddenInput.value = input.value;
+                form.appendChild(hiddenInput);
+            });
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+    });
+});
+</script>
+{% endblock %}

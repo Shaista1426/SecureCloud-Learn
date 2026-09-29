@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate of Completion</title>
+    <style>
+        body { font-family: 'Times New Roman', Times, serif; background: #f3f7fa; margin:0; padding:0; }
+        .certificate-container {
+            width: 800px;
+            height: 600px;
+            margin: 50px auto;
+            padding: 50px;
+            border: 10px solid #2e7d32;
+            border-radius: 15px;
+            background: white;
+            text-align: center;
+            position: relative;
+        }
+        .certificate-title { font-size: 36px; font-weight: bold; color: #2e7d32; margin-bottom: 40px; }
+        .certificate-text { font-size: 20px; margin-bottom: 30px; }
+        .certificate-name { font-size: 28px; font-weight: bold; margin-bottom: 20px; }
+        .certificate-course { font-size: 24px; font-style: italic; margin-bottom: 30px; }
+        .certificate-date { position: absolute; bottom: 50px; left: 50px; font-size: 18px; }
+        .certificate-sign { position: absolute; bottom: 50px; right: 50px; font-size: 18px; }
+        .btn { margin-top: 30px; padding: 10px 20px; border: none; border-radius: 6px; background: #1976d2; color: white; font-size: 16px; cursor: pointer; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="certificate-title">Certificate of Completion</div>
+        <div class="certificate-text">This is to certify that</div>
+        <div class="certificate-name">{{ student.name }}</div>
+        <div class="certificate-text">has successfully completed the course</div>
+        <div class="certificate-course">{{ certificate.course.title }}</div>
+        <div class="certificate-date">Date: {{ certificate.date.strftime('%d %B %Y') }}</div>
+        <div class="certificate-sign">Instructor Signature</div>
+
+        <a class="btn" href="{{ url_for('student.student_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SecureCloud Learn | Account Recovery
+    </title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f5f7fa;
+
+            color: #1f2937;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px 15px;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .recovery-page {
+
+            width: 100%;
+
+            max-width: 470px;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .brand-section {
+
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .brand-logo {
+
+            width: 62px;
+
+            height: 62px;
+
+            object-fit: contain;
+
+            margin-bottom: 8px;
+        }
+
+
+        .brand-name {
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            color: #2e7d32;
+
+            margin: 0;
+        }
+
+
+        .brand-tagline {
+
+            margin-top: 5px;
+
+            color: #7b8794;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .recovery-container {
+
+            width: 100%;
+
+            background: #ffffff;
+
+            padding: 32px 34px;
+
+            border-radius: 14px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 6px 25px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .recovery-container h2 {
+
+            color: #17202a;
+
+            margin: 0 0 8px;
+
+            text-align: center;
+
+            font-size: 23px;
+        }
+
+
+        .recovery-subtitle {
+
+            text-align: center;
+
+            color: #7b8794;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            margin:
+                0
+                0
+                25px;
+        }
+
+
+        /* =====================================================
+           RECOVERY OPTION
+        ===================================================== */
+
+        .recovery-option {
+
+            display: block;
+
+            width: 100%;
+
+            padding: 17px;
+
+            margin-bottom: 13px;
+
+            border: 1px solid #dfe5df;
+
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            text-decoration: none;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .recovery-option:hover {
+
+            border-color: #2e7d32;
+
+            background: #f8fbf8;
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 4px 12px
+                rgba(46, 125, 50, 0.08);
+        }
+
+
+        .option-title {
+
+            display: block;
+
+            color: #263238;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+
+        .option-description {
+
+            display: block;
+
+            color: #7b8794;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .option-arrow {
+
+            float: right;
+
+            color: #2e7d32;
+
+            font-size: 18px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           TRY ANOTHER WAY
+        ===================================================== */
+
+        .alternative-option {
+
+            border-color: #cfd8cf;
+
+            background: #fafcf9;
+        }
+
+
+        .alternative-option .option-title {
+
+            color: #2e7d32;
+        }
+
+
+        /* =====================================================
+           SECURITY NOTE
+        ===================================================== */
+
+        .security-note {
+
+            margin-top: 20px;
+
+            padding: 12px 13px;
+
+            border-radius: 8px;
+
+            background: #f8faf8;
+
+            border: 1px solid #e2e8e2;
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+
+        /* =====================================================
+           BACK TO LOGIN
+        ===================================================== */
+
+        .back-link {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #6b7280;
+
+            font-size: 13px;
+        }
+
+
+        .back-link a {
+
+            color: #2e7d32;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+
+        .back-link a:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .page-footer {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding:
+                    20px
+                    12px;
+            }
+
+
+            .recovery-container {
+
+                padding:
+                    25px
+                    20px;
+            }
+
+
+            .brand-name {
+
+                font-size: 21px;
+            }
+
+
+            .recovery-container h2 {
+
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="recovery-page">
+
+
+    <!-- =====================================================
+         BRAND
+    ====================================================== -->
+
+    <div class="brand-section">
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/logo.png'
+            ) }}"
+            alt="SecureCloud Learn Logo"
+            class="brand-logo"
+        >
+
+
+        <h1 class="brand-name">
+
+            SecureCloud Learn
+
+        </h1>
+
+
+        <div class="brand-tagline">
+
+            Secure Digital Learning Platform
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RECOVERY CARD
+    ====================================================== -->
+
+    <div class="recovery-container">
+
+
+        <h2>
+
+            Verify Your Account
+
+        </h2>
+
+
+        <p class="recovery-subtitle">
+
+            Choose how you would like to verify your identity
+            and reset your password.
+
+        </p>
+
+
+        <!-- =================================================
+             EMAIL OPTION
+        ================================================== -->
+
+        <a
+            href="{{ url_for(
+                'auth_bp.send_reset_email'
+            ) }}"
+            class="recovery-option"
+        >
+
+            <span class="option-arrow">
+                →
+            </span>
+
+
+            <span class="option-title">
+
+                Send a reset link to my email
+
+            </span>
+
+
+            <span class="option-description">
+
+                We will send a secure password reset link
+                to your registered email address.
+
+            </span>
+
+        </a>
+
+
+        <!-- =================================================
+             TRY ANOTHER WAY
+        ================================================== -->
+
+        <a
+            href="{{ url_for(
+                'auth_bp.try_another_way'
+            ) }}"
+            class="
+                recovery-option
+                alternative-option
+            "
+        >
+
+            <span class="option-arrow">
+                →
+            </span>
+
+
+            <span class="option-title">
+
+                Try another way
+
+            </span>
+
+
+            <span class="option-description">
+
+                Verify your identity by answering the
+                security question associated with your account.
+
+            </span>
+
+        </a>
+
+
+        <!-- =================================================
+             SECURITY NOTE
+        ================================================== -->
+
+        <div class="security-note">
+
+            For your protection, SecureCloud Learn does not
+            display or reveal your password or security answer.
+
+        </div>
+
+
+        <!-- =================================================
+             BACK TO LOGIN
+        ================================================== -->
+
+        <div class="back-link">
+
+            Remember your password?
+
+            <a
+                href="{{ url_for('auth_bp.login') }}"
+            >
+                Login here
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <div class="page-footer">
+
+        © 2026 SecureCloud Learn
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SecureCloud Learn | Security Verification
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f5f7fa;
+
+            color: #1f2937;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px 15px;
+        }
+
+        .recovery-page {
+
+            width: 100%;
+
+            max-width: 470px;
+        }
+
+        .brand-section {
+
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+        .brand-logo {
+
+            width: 62px;
+
+            height: 62px;
+
+            object-fit: contain;
+
+            margin-bottom: 8px;
+        }
+
+        .brand-name {
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            color: #2e7d32;
+
+            margin: 0;
+        }
+
+        .brand-tagline {
+
+            margin-top: 5px;
+
+            color: #7b8794;
+
+            font-size: 13px;
+        }
+
+        .recovery-container {
+
+            width: 100%;
+
+            background: #ffffff;
+
+            padding: 32px 34px;
+
+            border-radius: 14px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 6px 25px
+                rgba(0, 0, 0, 0.08);
+        }
+
+        .recovery-container h2 {
+
+            color: #17202a;
+
+            margin: 0 0 8px;
+
+            text-align: center;
+
+            font-size: 23px;
+        }
+
+        .recovery-subtitle {
+
+            text-align: center;
+
+            color: #7b8794;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            margin:
+                0
+                0
+                25px;
+        }
+
+        .flash-message {
+
+            padding: 11px 13px;
+
+            margin-bottom: 15px;
+
+            border-radius: 7px;
+
+            background: #fff4f4;
+
+            border: 1px solid #ffd5d5;
+
+            color: #c62828;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+
+            display: block;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+
+            color: #374151;
+
+            font-size: 13px;
+        }
+
+        .form-control {
+
+            width: 100%;
+
+            min-height: 44px;
+
+            padding: 10px 12px;
+
+            border-radius: 7px;
+
+            border: 1px solid #d1d5db;
+
+            background: #ffffff;
+
+            font-size: 14px;
+
+            color: #1f2937;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+        .form-control:focus {
+
+            border-color: #2e7d32;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(46, 125, 50, 0.10);
+        }
+
+        .submit-button {
+
+            width: 100%;
+
+            height: 44px;
+
+            background: #2e7d32;
+
+            color: white;
+
+            padding: 11px 15px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        .submit-button:hover {
+
+            background: #256b29;
+
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #6b7280;
+
+            font-size: 13px;
+        }
+
+        .back-link a {
+
+            color: #2e7d32;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+
+            text-decoration: underline;
+        }
+
+        .security-note {
+
+            margin-top: 18px;
+
+            padding: 11px 12px;
+
+            background: #f8faf8;
+
+            border: 1px solid #e2e8e2;
+
+            border-radius: 7px;
+
+            color: #7b8794;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+        .page-footer {
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 20px 12px;
+            }
+
+            .recovery-container {
+
+                padding: 25px 20px;
+            }
+
+            .brand-name {
+
+                font-size: 21px;
+            }
+
+            .recovery-container h2 {
+
+                font-size: 21px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="recovery-page">
+
+    <!-- =====================================================
+         BRAND
+    ====================================================== -->
+
+    <div class="brand-section">
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='images/logo.png'
+            ) }}"
+            alt="SecureCloud Learn Logo"
+            class="brand-logo"
+        >
+
+        <h1 class="brand-name">
+            SecureCloud Learn
+        </h1>
+
+        <div class="brand-tagline">
+            Secure Digital Learning Platform
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SECURITY QUESTION CARD
+    ====================================================== -->
+
+    <div class="recovery-container">
+
+        <h2>
+            Verify Your Identity
+        </h2>
+
+        <p class="recovery-subtitle">
+
+            Select the security question you chose during
+            registration and provide your answer.
+
+        </p>
+
+
+        <!-- =================================================
+             FLASH MESSAGES
+        ================================================== -->
+
+        {% with
+            messages =
+            get_flashed_messages(
+                with_categories=true
+            )
+        %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =================================================
+             SECURITY QUESTION FORM
+        ================================================== -->
+
+        <form
+    method="POST"
+    action="{{
+        url_for(
+            'auth_bp.verify_security_question'
+        )
+    }}"
+>
+
+    <!-- =============================================
+         QUESTION SELECTION
+    ============================================== -->
+
+    <div class="form-group">
+
+        <label for="security_question">
+
+            Select Your Security Question
+
+        </label>
+
+        <select
+            id="security_question"
+            name="security_question"
+            class="form-control"
+            required
+        >
+
+            <option
+                value=""
+                disabled
+                {% if not selected_question %}
+                    selected
+                {% endif %}
+            >
+
+                Select your security question
+
+            </option>
+
+            {% for question in security_questions %}
+
+                <option
+                    value="{{ question }}"
+                    {% if selected_question == question %}
+                        selected
+                    {% endif %}
+                >
+
+                    {{ question }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <!-- =============================================
+         SECURITY ANSWER
+    ============================================== -->
+
+    <div class="form-group">
+
+        <label for="security_answer">
+
+            Your Answer
+
+        </label>
+
+        <input
+            type="text"
+            id="security_answer"
+            name="security_answer"
+            class="form-control"
+            placeholder="Enter your answer"
+            autocomplete="off"
+            required
+        >
+
+    </div>
+
+
+    <!-- =============================================
+         SUBMIT
+    ============================================== -->
+
+    <button
+        type="submit"
+        class="submit-button"
+    >
+
+        Verify Answer
+
+    </button>
+
+</form>
+
+        <!-- =================================================
+             TRY ANOTHER WAY
+        ================================================== -->
+
+        <div class="back-link">
+
+            Want to use another recovery method?
+
+            <a
+                href="{{
+                    url_for(
+                        'auth_bp.recovery_options'
+                    )
+                }}"
+            >
+
+                Try another way
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SECURITY NOTE
+        ================================================== -->
+
+        <div class="security-note">
+
+            For your security, SecureCloud Learn does not
+            reveal which security question was selected
+            during registration.
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <div class="page-footer">
+
+        © 2026 SecureCloud Learn
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

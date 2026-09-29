@@ -1,0 +1,563 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       AUDIT LOG CONTAINER
+    ===================================================== */
+
+    .audit-container {
+        width: 95%;
+        max-width: 1500px;
+        margin: 35px auto;
+    }
+
+    .audit-container h1 {
+        color: #173f63;
+        margin-bottom: 8px;
+        font-size: 30px;
+    }
+
+    .audit-subtitle {
+        color: #555;
+        margin-bottom: 25px;
+        font-size: 16px;
+    }
+
+    /* =====================================================
+   AUDIT LOG SEARCH
+===================================================== */
+
+.audit-search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.audit-search-input,
+.audit-date-input {
+    padding: 11px 13px;
+    border: 1px solid #cbd5df;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #26384a;
+    background-color: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.audit-search-input {
+    width: 220px;
+}
+
+.audit-date-input {
+    width: 155px;
+}
+
+.audit-search-input:focus,
+.audit-date-input:focus {
+    border-color: #173f63;
+    box-shadow: 0 0 0 2px rgba(23, 63, 99, 0.10);
+}
+.audit-search-input:focus {
+    border-color: #173f63;
+    box-shadow: 0 0 0 2px rgba(23, 63, 99, 0.10);
+}
+
+.audit-search-button {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #173f63;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.audit-search-button:hover {
+    background-color: #12334f;
+}
+
+.audit-clear-button {
+    padding: 10px 17px;
+    border: 1px solid #cbd5df;
+    border-radius: 5px;
+    color: #374151;
+    background-color: #ffffff;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.audit-clear-button:hover {
+    background-color: #f5f7f9;
+}
+
+
+    /* =====================================================
+       TABLE WRAPPER
+    ===================================================== */
+
+    .audit-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        background: #ffffff;
+        border: 1px solid #d9e1e8;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .audit-table {
+        width: 100%;
+        min-width: 1150px;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 14px;
+        color: #1f2933;
+    }
+
+
+    /* =====================================================
+       COLUMN WIDTHS
+    ===================================================== */
+
+    .audit-table th:nth-child(1),
+    .audit-table td:nth-child(1) {
+        width: 70px;
+    }
+
+    .audit-table th:nth-child(2),
+    .audit-table td:nth-child(2) {
+        width: 150px;
+    }
+
+    .audit-table th:nth-child(3),
+    .audit-table td:nth-child(3) {
+        width: 170px;
+    }
+
+    .audit-table th:nth-child(4),
+    .audit-table td:nth-child(4) {
+        width: 130px;
+    }
+
+    .audit-table th:nth-child(5),
+    .audit-table td:nth-child(5) {
+        width: 150px;
+    }
+
+    .audit-table th:nth-child(6),
+    .audit-table td:nth-child(6) {
+        width: 190px;
+    }
+
+    .audit-table th:nth-child(7),
+    .audit-table td:nth-child(7) {
+        width: auto;
+    }
+
+
+    /* =====================================================
+       TABLE HEADER
+    ===================================================== */
+
+    .audit-table thead {
+        background-color: #173f63;
+        color: #ffffff;
+    }
+
+    .audit-table th {
+        padding: 15px 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+        color: #ffffff;
+        border-right: 1px solid rgba(255, 255, 255, 0.25);
+        white-space: nowrap;
+    }
+
+    .audit-table th:last-child {
+        border-right: none;
+    }
+
+
+    /* =====================================================
+       TABLE BODY
+    ===================================================== */
+
+    .audit-table td {
+        padding: 14px;
+        border-right: 1px solid #d9e1e8;
+        border-bottom: 1px solid #d9e1e8;
+        vertical-align: middle;
+        background-color: #ffffff;
+    }
+
+    .audit-table td:last-child {
+        border-right: none;
+    }
+
+    .audit-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /* =====================================================
+       ALTERNATING ROWS
+    ===================================================== */
+
+    .audit-table tbody tr td {
+    background-color: #ffffff;
+}
+
+
+    /* =====================================================
+       ROW HOVER
+    ===================================================== */
+
+    .audit-table tbody tr:hover td {
+        background-color: #f1f6fa;
+    }
+
+
+    /* =====================================================
+       SERIAL NUMBER
+    ===================================================== */
+
+    .serial-number {
+        text-align: center !important;
+        color: #374151;
+        font-weight: 500;
+    }
+
+    /* Header must remain WHITE */
+    .audit-table th.serial-number {
+        color: #ffffff !important;
+        text-align: center !important;
+    }
+
+
+    /* =====================================================
+       AUDIT ID
+    ===================================================== */
+
+    .audit-id {
+        font-weight: 700;
+        color: #173f63;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       EVENT
+    ===================================================== */
+
+    .event-name {
+        font-weight: 600;
+        color: #26384a;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       USER
+    ===================================================== */
+
+    .user-name {
+        font-weight: 500;
+        color: #26384a;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       IP ADDRESS
+    ===================================================== */
+
+    .ip-address {
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        color: #374151;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       DATE / TIME
+    ===================================================== */
+
+    .date-time {
+        color: #374151;
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       DESCRIPTION
+    ===================================================== */
+
+    .description {
+        color: #374151;
+        line-height: 1.5;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .no-logs {
+        text-align: center;
+        padding: 30px !important;
+        color: #6b7280;
+        font-style: italic;
+    }
+
+
+</style>
+
+
+<div class="audit-container">
+
+    <h1>Audit Logs</h1>
+
+    <div class="audit-subtitle">
+        Security and system activity records
+    </div>
+
+    <!-- =====================================================
+     AUDIT LOG SEARCH
+===================================================== -->
+
+<form method="GET"
+      action="{{ url_for('dashboard_bp.audit_logs') }}"
+      class="audit-search-form">
+
+    <!-- AUDIT ID -->
+
+    <input
+        type="text"
+        name="audit_id"
+        value="{{ audit_id }}"
+        placeholder="Audit ID"
+        class="audit-search-input"
+    >
+
+
+    <!-- USERNAME -->
+
+    <input
+        type="text"
+        name="username"
+        value="{{ username }}"
+        placeholder="Username"
+        class="audit-search-input"
+    >
+
+
+    <!-- EVENT TYPE -->
+
+    <select
+        name="event_type"
+        class="audit-search-input">
+
+        <option value="">
+            All Events
+        </option>
+
+        <option value="LOGIN_SUCCESS"
+            {% if event_type == 'LOGIN_SUCCESS' %}selected{% endif %}>
+            LOGIN_SUCCESS
+        </option>
+
+        <option value="LOGIN_FAILED"
+            {% if event_type == 'LOGIN_FAILED' %}selected{% endif %}>
+            LOGIN_FAILED
+        </option>
+
+        <option value="MFA_SUCCESS"
+            {% if event_type == 'MFA_SUCCESS' %}selected{% endif %}>
+            MFA_SUCCESS
+        </option>
+
+        <option value="MFA_FAILED"
+            {% if event_type == 'MFA_FAILED' %}selected{% endif %}>
+            MFA_FAILED
+        </option>
+
+        <option value="LOGOUT"
+            {% if event_type == 'LOGOUT' %}selected{% endif %}>
+            LOGOUT
+        </option>
+
+    </select>
+
+
+    <!-- FROM DATE -->
+
+    <input
+        type="date"
+        name="from_date"
+        value="{{ from_date }}"
+        class="audit-date-input"
+    >
+
+
+    <!-- TO DATE -->
+
+    <input
+        type="date"
+        name="to_date"
+        value="{{ to_date }}"
+        class="audit-date-input"
+    >
+
+
+    <!-- SEARCH -->
+
+    <button
+        type="submit"
+        class="audit-search-button">
+        Apply Filters
+    </button>
+
+
+    <!-- CLEAR -->
+
+    <a
+        href="{{ url_for('dashboard_bp.audit_logs') }}"
+        class="audit-clear-button">
+        Clear
+    </a>
+
+</form>
+
+
+    <div class="audit-table-wrapper">
+
+        <table class="audit-table">
+
+            <thead>
+
+                <tr>
+
+                    <th class="serial-number">
+                        Sl. No.
+                    </th>
+
+                    <th>
+                        Audit ID
+                    </th>
+
+                    <th>
+                        Event
+                    </th>
+
+                    <th>
+                        User
+                    </th>
+
+                    <th>
+                        IP Address
+                    </th>
+
+                    <th>
+                        Date &amp; Time
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for log in logs %}
+
+                <tr>
+
+                    <!-- SERIAL NUMBER -->
+
+                    <td class="serial-number">
+                        {{ loop.index }}
+                    </td>
+
+
+                    <!-- AUDIT ID -->
+
+                    <td class="audit-id">
+                        {{ log.audit_id }}
+                    </td>
+
+
+                    <!-- EVENT -->
+
+                    <td class="event-name">
+                        {{ log.event_type }}
+                    </td>
+
+
+                    <!-- USER -->
+
+                    <td class="user-name">
+                        {{ log.user.username if log.user else 'Unknown' }}
+                    </td>
+
+
+                    <!-- IP ADDRESS -->
+
+                    <td class="ip-address">
+                        {{ log.ip_address or 'N/A' }}
+                    </td>
+
+
+                    <!-- DATE / TIME -->
+
+                    <td class="date-time">
+                        {{ log.created_at.strftime('%d %b %Y, %H:%M:%S') }}
+                    </td>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <td class="description">
+                        {{ log.description }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="7" class="no-logs">
+                        No audit logs found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

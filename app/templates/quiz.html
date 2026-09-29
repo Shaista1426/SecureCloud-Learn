@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Quiz{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ question.quiz.title }}</h2>
+<div class="card p-4 shadow-sm">
+    <h5>{{ question.text }}</h5>
+    <form method="POST">
+        <ol type="A">
+        {% for option in question.options %}
+            <li class="quiz-option">
+                <input type="radio" name="answer" value="{{ option }}" required>
+                {{ option }}
+            </li>
+        {% endfor %}
+        </ol>
+        <button type="submit" class="btn btn-success mt-3">Submit Answer</button>
+    </form>
+</div>
+{% endblock %}

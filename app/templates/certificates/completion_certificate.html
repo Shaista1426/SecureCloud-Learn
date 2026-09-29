@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .certificate-wrapper, .certificate-wrapper * {
+        visibility: visible;
+    }
+    .certificate-wrapper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+
+.certificate-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.certificate {
+    width: 900px;
+    height: 600px;
+    padding: 50px;
+    background: #fff;
+    border: 12px solid #1b5e20;
+    position: relative;
+    font-family: "Times New Roman", serif;
+}
+
+/* Inner decorative border */
+.certificate::before {
+    content: "";
+    position: absolute;
+    inset: 15px;
+    border: 3px solid #4caf50;
+}
+
+/* Watermark seal */
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 380px;
+    opacity: 0.08;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.certificate-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.certificate h1 {
+    font-size: 40px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    color: #1b5e20;
+}
+
+.sub-title {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.name {
+    font-size: 34px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.course {
+    font-size: 24px;
+    font-style: italic;
+    margin-bottom: 25px;
+}
+
+.date {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    font-size: 16px;
+}
+
+.signature {
+    text-align: left;
+}
+
+.signature-line {
+    margin-top: 40px;
+    border-top: 1px solid #000;
+    width: 220px;
+}
+
+.verify {
+    text-align: right;
+}
+
+.print-btn {
+    margin-top: 30px;
+}
+
+    /* ---- Image control ONLY for certificate ---- */
+.certificate img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Logo styling */
+.certificate-logo {
+    max-width: 140px;
+    margin-bottom: 20px;
+}
+
+/* Signature styling */
+.signature-left img {
+    height: 80px;   /* bigger & clearer */
+}
+
+</style>
+
+<div class="certificate-wrapper">
+    <div class="certificate">
+
+        <!-- Optional watermark logo -->
+        <img src="{{ url_for('static', filename='images/seal.png') }}" class="watermark">
+
+        <div class="certificate-header" style="text-align:center; margin-bottom: 10px;">
+    <img src="{{ url_for('static', filename='images/logo1.jpeg') }}"
+         alt="Institute Logo"
+         class="certificate-logo">
+</div>
+
+
+
+
+        <div class="certificate-content">
+
+            <h1>CERTIFICATE OF COMPLETION</h1>
+            <p class="certificate-text">This is to certify that</p>
+
+<h2 class="student-name">
+    {{ student_name }}
+</h2>
+
+<p class="certificate-text">
+    has successfully completed the course
+</p>
+
+
+            <div class="course">{{ course.title }}</div>
+
+            <div class="date">
+                Awarded on {{ issued_date.strftime('%d %B %Y') }}
+            </div>
+
+            <div class="footer">
+                <div class="signature-left">
+    <img src="{{ url_for('static', filename='images/signature.jpeg') }}"
+         alt="Instructor Signature"
+         style="height:20px;">
+    <p class="signature-title">Instructor</p>
+</div>
+
+
+
+                <div class="verify">
+                    Certificate ID<br>
+                    <strong>{{ course.id }}-{{ current_user.id }}</strong>
+                </div>
+            </div>
+
+            <div class="print-btn">
+                <button onclick="window.print()" class="btn btn-success">
+                    Print / Save as PDF
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

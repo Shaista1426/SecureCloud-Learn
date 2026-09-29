@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width:900px;margin:40px auto;">
+    <h2 style="text-align:center;margin-bottom:25px;">All Courses</h2>
+
+    {% if courses %}
+        <div style="display:flex;flex-direction:column;gap:15px;">
+            {% for course in courses %}
+            <a href="{{ url_for('courses_bp.view_course', course_id=course.id) }}"
+               style="text-decoration:none;color:#000;">
+                <div style="padding:15px;border:1px solid #ccc;border-radius:8px;background:#f9f9f9;">
+                    <h3>{{ course.title }}</h3>
+                    <p>{{ course.description }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No courses created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

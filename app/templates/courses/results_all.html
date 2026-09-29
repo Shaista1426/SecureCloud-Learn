@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:900px; margin:40px auto; background:white; padding:25px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);">
+
+    <h2 style="color:#1b5e20; margin-bottom:15px;">
+        Results for: {{ quiz.title }}
+    </h2>
+
+    {% if results|length == 0 %}
+        <p style="color:#444;">No student has taken this quiz yet.</p>
+    {% else %}
+        <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+            <tr style="background:#1b5e20; color:white;">
+                <th style="padding:10px; text-align:left;">Student</th>
+                <th style="padding:10px; text-align:left;">Score</th>
+                <th style="padding:10px; text-align:left;">Actions</th>
+            </tr>
+
+            {% for r in results %}
+            <tr style="background:#f4f9f4; border-bottom:1px solid #ccc;">
+                <td style="padding:10px;">{{ r.user.username }}</td>
+                <td style="padding:10px;">{{ r.score }} / {{ r.total_questions }}</td>
+                <td style="padding:10px;">
+                    <a href="/courses/quiz/result/{{ r.id }}"
+                       style="color:#1b5e20; font-weight:bold; text-decoration:none;">
+                       View Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+</div>
+
+{% endblock %}

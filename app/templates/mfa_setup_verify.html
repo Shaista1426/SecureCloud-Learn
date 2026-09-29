@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}
+Verify Two-Factor Authentication | SecureCloud Learn
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .mfa-verify-page {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .mfa-verify-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 30px;
+    }
+
+    .mfa-verify-icon {
+        font-size: 35px;
+        margin-bottom: 15px;
+    }
+
+    .mfa-verify-card h1 {
+        margin: 0 0 10px 0;
+        color: #1f2937;
+        font-size: 25px;
+    }
+
+    .mfa-verify-card p {
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+
+    /* =====================================================
+       OTP TIMER
+    ===================================================== */
+
+    .otp-timer {
+        text-align: center;
+        margin: 10px 0 20px 0;
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+    .otp-timer strong {
+        font-size: 18px;
+        color: #198754;
+        font-weight: 700;
+    }
+
+    .otp-expired {
+        color: #dc3545;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       OTP INPUT
+    ===================================================== */
+
+    .otp-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 20px;
+        letter-spacing: 5px;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    .otp-button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #198754;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .otp-button:hover {
+        opacity: 0.9;
+    }
+
+
+    /* =====================================================
+       BACK LINK
+    ===================================================== */
+
+    .back-link {
+        display: block;
+        margin-top: 18px;
+        text-align: center;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+</style>
+
+
+<div class="mfa-verify-page">
+
+    <div class="mfa-verify-card">
+
+        <div class="mfa-verify-icon">
+            🛡️
+        </div>
+
+
+        <h1>
+            Verify Two-Factor Authentication
+        </h1>
+
+
+        <p>
+            We have sent a 6-digit verification code to your
+            registered email address.
+            Enter the code below to enable
+            Two-Factor Authentication.
+        </p>
+
+
+       <!-- =================================================
+     OTP TIMER
+================================================== -->
+
+<div class="otp-timer" id="otpTimer">
+
+    Code expires in:
+
+    <strong id="countdown">
+        05:00
+    </strong>
+
+</div>
+
+
+<!-- =================================================
+     RESEND CODE
+================================================== -->
+
+<div
+    id="resendContainer"
+    style="
+        display: none;
+        text-align: center;
+        margin-bottom: 20px;
+    "
+>
+
+    <p
+        style="
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        "
+    >
+        Your verification code has expired.
+    </p>
+
+    <a
+        href="{{ url_for('auth_bp.resend_mfa_setup') }}"
+        style="
+            color: #198754;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        "
+    >
+        ↻ Resend Code
+    </a>
+
+</div>
+
+
+        <!-- =================================================
+             OTP FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            action="{{ url_for('auth_bp.verify_mfa_setup') }}"
+            id="otpForm"
+        >
+
+            <input
+                type="text"
+                name="otp"
+                id="otp"
+                class="otp-input"
+                maxlength="6"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                placeholder="000000"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="otp-button"
+                id="verifyButton"
+            >
+                Verify and Enable MFA
+            </button>
+
+        </form>
+
+
+        <a
+            href="{{ url_for('dashboard_bp.mfa_settings') }}"
+            class="back-link"
+        >
+            ← Cancel
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // ========================================================
+    // OTP COUNTDOWN TIMER
+    // ========================================================
+
+    let remainingSeconds = 5 * 60;
+
+    const countdownElement =
+        document.getElementById("countdown");
+
+    const timerElement =
+        document.getElementById("otpTimer");
+
+    const otpInput =
+        document.getElementById("otp");
+
+    const verifyButton =
+        document.getElementById("verifyButton");
+
+    const resendContainer =
+        document.getElementById("resendContainer");
+
+
+    function updateCountdown() {
+
+        const minutes =
+            Math.floor(
+                remainingSeconds / 60
+            );
+
+        const seconds =
+            remainingSeconds % 60;
+
+
+        countdownElement.textContent =
+            String(minutes).padStart(2, "0")
+            +
+            ":"
+            +
+            String(seconds).padStart(2, "0");
+
+
+        // ----------------------------------------------------
+        // OTP EXPIRED
+        // ----------------------------------------------------
+
+        if (remainingSeconds <= 0) {
+
+            countdownElement.textContent =
+                "Expired";
+
+            timerElement.classList.add(
+                "otp-expired"
+            );
+
+            otpInput.disabled = true;
+
+            verifyButton.disabled = true;
+
+            verifyButton.style.opacity =
+                "0.5";
+
+            verifyButton.style.cursor =
+                "not-allowed";
+
+
+            // Show resend option
+            resendContainer.style.display =
+                "block";
+
+            return;
+        }
+
+
+        remainingSeconds--;
+
+        setTimeout(
+            updateCountdown,
+            1000
+        );
+    }
+
+
+    updateCountdown();
+
+</script>
+
+
+{% endblock %}

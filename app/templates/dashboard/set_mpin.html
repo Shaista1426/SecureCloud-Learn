@@ -1,0 +1,459 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if user.mpin %}
+Change MPIN | SecureCloud Learn
+{% else %}
+Set MPIN | SecureCloud Learn
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       MPIN PAGE
+    ===================================================== */
+
+    .mpin-page {
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .mpin-header {
+        margin-bottom: 28px;
+    }
+
+    .mpin-header h1 {
+        margin: 0 0 8px 0;
+        color: #1f2937;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .mpin-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       MAIN CARD
+    ===================================================== */
+
+    .mpin-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+
+    /* =====================================================
+       SECURITY INTRO
+    ===================================================== */
+
+    .mpin-intro {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        padding: 18px;
+
+        background: #f0f8f2;
+        border: 1px solid #dcefe0;
+        border-radius: 12px;
+
+        margin-bottom: 28px;
+    }
+
+    .mpin-intro-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 12px;
+
+        background: #dff1e3;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 23px;
+
+        flex-shrink: 0;
+    }
+
+    .mpin-intro-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1f2937;
+
+        margin-bottom: 4px;
+    }
+
+    .mpin-intro-text {
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       FORM GROUP
+    ===================================================== */
+
+    .mpin-form-group {
+        margin-bottom: 20px;
+    }
+
+    .mpin-form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        color: #374151;
+    }
+
+    .mpin-form-group input {
+        width: 100%;
+        box-sizing: border-box;
+
+        padding: 13px 14px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+
+        font-size: 18px;
+        letter-spacing: 5px;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .mpin-form-group input:focus {
+        border-color: #4f9d69;
+
+        box-shadow:
+            0 0 0 3px rgba(79, 157, 105, 0.12);
+    }
+
+    .mpin-help {
+        margin-top: 6px;
+
+        font-size: 12px;
+        color: #9ca3af;
+    }
+
+
+    /* =====================================================
+       ACTIONS
+    ===================================================== */
+
+    .mpin-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        margin-top: 28px;
+    }
+
+    .mpin-submit {
+        border: none;
+
+        padding: 12px 22px;
+
+        border-radius: 9px;
+
+        background: #2f7d46;
+        color: #ffffff;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition:
+            background 0.2s ease,
+            transform 0.1s ease;
+    }
+
+    .mpin-submit:hover {
+        background: #25663a;
+    }
+
+    .mpin-submit:active {
+        transform: translateY(1px);
+    }
+
+    .mpin-cancel {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 11px 18px;
+
+        border-radius: 9px;
+
+        border: 1px solid #d1d5db;
+
+        color: #4b5563;
+        background: #ffffff;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .mpin-cancel:hover {
+        background: #f9fafb;
+    }
+
+
+    /* =====================================================
+       SECURITY NOTE
+    ===================================================== */
+
+    .mpin-security-note {
+        margin-top: 25px;
+
+        padding: 15px 17px;
+
+        background: #f9fafb;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 10px;
+
+        font-size: 12px;
+        color: #6b7280;
+
+        line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .mpin-card {
+            padding: 20px;
+        }
+
+        .mpin-header h1 {
+            font-size: 24px;
+        }
+
+        .mpin-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .mpin-submit,
+        .mpin-cancel {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+    }
+
+</style>
+
+
+<div class="mpin-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="mpin-header">
+
+        <h1>
+
+            {% if user.mpin %}
+                Change MPIN
+            {% else %}
+                Set MPIN
+            {% endif %}
+
+        </h1>
+
+        <p>
+            Configure your mobile MPIN for secure identity
+            verification on your SecureCloud Learn account.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         MAIN CARD
+    ================================================== -->
+
+    <div class="mpin-card">
+
+
+        <!-- SECURITY INTRO -->
+
+        <div class="mpin-intro">
+
+            <div class="mpin-intro-icon">
+                🔐
+            </div>
+
+            <div>
+
+                <div class="mpin-intro-title">
+                    Mobile MPIN Security
+                </div>
+
+                <div class="mpin-intro-text">
+                    Your MPIN is used as an additional identity
+                    verification method when SecureCloud Learn
+                    needs to confirm that an account activity
+                    was performed by you.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            action="{{ url_for('dashboard_bp.set_mpin') }}"
+        >
+
+
+            <!-- MPIN -->
+
+            <div class="mpin-form-group">
+
+                <label for="mpin">
+                    {% if user.mpin %}
+                        New MPIN
+                    {% else %}
+                        MPIN
+                    {% endif %}
+                </label>
+
+                <input
+                    type="password"
+                    id="mpin"
+                    name="mpin"
+                    inputmode="numeric"
+                    maxlength="6"
+                    minlength="6"
+                    pattern="[0-9]{6}"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <div class="mpin-help">
+                    Enter exactly 6 digits.
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRM MPIN -->
+
+            <div class="mpin-form-group">
+
+                <label for="confirm_mpin">
+                    Confirm MPIN
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_mpin"
+                    name="confirm_mpin"
+                    inputmode="numeric"
+                    maxlength="6"
+                    minlength="6"
+                    pattern="[0-9]{6}"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <div class="mpin-help">
+                    Re-enter the same 6-digit MPIN.
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="mpin-actions">
+
+                <button
+                    type="submit"
+                    class="mpin-submit"
+                >
+
+                    {% if user.mpin %}
+                        Change MPIN
+                    {% else %}
+                        Set MPIN
+                    {% endif %}
+
+                </button>
+
+
+                <a
+                    href="{{ url_for('dashboard_bp.mpin_settings') }}"
+                    class="mpin-cancel"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+        <!-- =================================================
+             SECURITY NOTE
+        ================================================== -->
+
+        <div class="mpin-security-note">
+
+            <strong>Security note:</strong>
+            Your MPIN is stored securely in hashed form.
+            SecureCloud Learn does not store the actual MPIN
+            as readable text.
+
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

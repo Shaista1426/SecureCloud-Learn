@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+
+    <h2>1. Introduction to Web Development</h2>
+    <p>Learn how websites are built using HTML, CSS, and JavaScript. HTML defines structure, CSS styles, and JavaScript adds interactivity.</p>
+
+    <h2>2. HTML Basics</h2>
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+
+    <h2>3. CSS Basics</h2>
+    <pre>
+body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+    </pre>
+
+    <h2>4. JavaScript Basics</h2>
+    <pre>
+function greet() {
+    alert("Hello, welcome to my website!");
+}
+    </pre>
+
+    <h2>5. Mini Project</h2>
+    <p>Create a webpage with a heading, paragraph, and a button that shows a JavaScript alert.</p>
+
+    <h2>6. Video Tutorial</h2>
+    <iframe src="https://www.youtube.com/embed/UB1O30fR-EE" title="Web Development Basics" width="100%" height="400"></iframe>
+</div>
+{% endblock %}

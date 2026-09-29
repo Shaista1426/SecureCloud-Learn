@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:900px; margin:30px auto;">
+
+    <h2 style="color:var(--green); text-align:center; margin-bottom:25px;">
+        Available Courses
+    </h2>
+
+    <div style="display:flex; justify-content:flex-end; margin-bottom:15px;">
+        {% if current_user.role == 'instructor' %}
+        <a href="{{ url_for('course_bp.create_course') }}" class="btn">
+            ➕ Create New Course
+        </a>
+        {% endif %}
+    </div>
+
+    {% if courses %}
+        <div style="display:flex; flex-direction:column; gap:15px;">
+            {% for course in courses %}
+                <div style="
+                    background:white;
+                    padding:18px;
+                    border-radius:10px;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                ">
+                    <div>
+                        <h4 style="margin:0; color:var(--green);">{{ course.title }}</h4>
+                        <p style="margin:5px 0; color:#555;">{{ course.description }}</p>
+                    </div>
+
+                    <div style="display:flex; gap:10px;">
+                        <a href="{{ url_for('course_bp.view_course', course_id=course.id) }}"
+                           class="btn" style="background:var(--green); color:white;">
+                           👁 View
+                        </a>
+
+                        {% if current_user.role == 'instructor' %}
+                        <a href="{{ url_for('course_bp.edit_course', course_id=course.id) }}"
+                           class="btn" style="background:#f0ad4e; color:white;">
+                           ✏ Edit
+                        </a>
+                        <a href="{{ url_for('course_bp.delete_course', course_id=course.id) }}"
+                           onclick="return confirm('Delete this course?');"
+                           class="btn" style="background:#d9534f; color:white;">
+                           🗑 Delete
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <p style="text-align:center; color:#777;">No courses available yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="course-wrapper">
+
+    <!-- ================= TEXTBOOK HEADER ================= -->
+    <div class="course-header">
+
+        <!-- Course Image -->
+        {% if course.image_filename %}
+        <div class="course-image-box">
+            <img
+                src="{{ url_for('static', filename='course_images/' ~ course.image_filename) }}"
+                alt="Course Image"
+                class="course-image"
+            >
+        </div>
+        {% endif %}
+
+        <!-- Course Intro -->
+        <div class="course-intro">
+            <h1 class="course-title">{{ course.title }}</h1>
+
+            <p class="course-description">
+                {{ course.description }}
+            </p>
+        </div>
+
+    </div>
+    <!-- ================= END TEXTBOOK HEADER ================= -->
+
+
+    <!-- ================= COURSE CONTENT ================= -->
+    {% if course.content %}
+    <div class="course-content">
+        {{ course.content | safe }}
+    </div>
+    {% endif %}
+
+
+    <!-- ================= INSTRUCTOR ACTIONS ================= -->
+    {% if current_user.role == 'instructor' and course.instructor_id == current_user.id %}
+    <div class="course-actions">
+
+        <a href="{{ url_for('quiz_bp.create_quiz', course_id=course.id) }}"
+           class="btn btn-primary">
+            + Add Quiz
+        </a>
+
+        {% if not course.is_published %}
+        <form method="POST"
+              action="{{ url_for('course_bp.publish_course', course_id=course.id) }}">
+            <button type="submit" class="btn btn-blue">
+                Publish Course
+            </button>
+        </form>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+
+    <!-- ================= QUIZZES ================= -->
+    <h2 class="section-title">Quizzes</h2>
+
+    {% if course.quizzes %}
+    <div class="quiz-grid">
+
+        {% for quiz in course.quizzes %}
+        <div class="quiz-card">
+
+            <h3 class="quiz-title">{{ quiz.title }}</h3>
+
+            {% if quiz.description %}
+            <p class="quiz-description">{{ quiz.description }}</p>
+            {% endif %}
+
+            <!-- ---------- INSTRUCTOR VIEW ---------- -->
+            {% if current_user.role == 'instructor' %}
+            <div class="quiz-action-bar">
+
+                <a href="{{ url_for('quiz_bp.edit_quiz', quiz_id=quiz.id) }}"
+                   class="btn btn-edit btn-small">
+                    Edit Quiz
+                </a>
+
+                <form method="POST"
+                      action="{{ url_for('quiz_bp.delete_quiz', quiz_id=quiz.id) }}">
+                    <button type="submit"
+                            class="btn btn-delete btn-small">
+                        Delete Quiz
+                    </button>
+                </form>
+
+                <a href="{{ url_for('quiz_bp.add_question', quiz_id=quiz.id) }}"
+                   class="btn btn-purple btn-small">
+                    Add Question
+                </a>
+
+            </div>
+
+            <!-- ---------- QUESTIONS ---------- -->
+            {% if quiz.questions %}
+            <ul class="question-list">
+
+                {% for question in quiz.questions %}
+                <li class="question-item">
+
+                    <div class="question-text">
+                        <strong>Q{{ loop.index }}.</strong> {{ question.text }}
+                    </div>
+
+                    <div class="question-actions">
+                        <a href="{{ url_for('quiz_bp.edit_question', question_id=question.id) }}"
+                           class="btn btn-edit btn-small">
+                            Edit
+                        </a>
+
+                        <form method="POST"
+                              action="{{ url_for('quiz_bp.delete_question', question_id=question.id) }}">
+                            <button type="submit"
+                                    class="btn btn-delete btn-small">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+
+                </li>
+                {% endfor %}
+
+            </ul>
+            {% else %}
+                <p class="muted-text">No questions added yet.</p>
+            {% endif %}
+
+            {% else %}
+            <!-- ---------- STUDENT VIEW ---------- -->
+                {% if quiz.id in attempted_quiz_ids %}
+                    <span class="badge-success">Completed</span>
+                {% else %}
+                    <a href="{{ url_for('quiz_bp.attempt_quiz', quiz_id=quiz.id) }}"
+                       class="btn btn-primary btn-small">
+                        Attempt Quiz
+                    </a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+    </div>
+    {% else %}
+        <p class="muted-text">No quizzes available yet.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

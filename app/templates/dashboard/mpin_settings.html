@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mobile Number & MPIN | SecureCloud Learn
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       MOBILE NUMBER & MPIN PAGE
+    ===================================================== */
+
+    .settings-page {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .settings-header {
+        margin-bottom: 30px;
+    }
+
+    .settings-header h1 {
+        margin: 0 0 8px 0;
+        color: #1f2937;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .settings-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       SECTION
+    ===================================================== */
+
+    .settings-section {
+        margin-bottom: 28px;
+    }
+
+    .settings-section-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 10px;
+    }
+
+
+    /* =====================================================
+       CARD
+    ===================================================== */
+
+    .settings-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+
+    /* =====================================================
+       SETTINGS ITEM
+    ===================================================== */
+
+    .settings-item {
+        display: flex;
+        align-items: center;
+        padding: 18px 20px;
+        border-bottom: 1px solid #f0f1f3;
+    }
+
+
+    /* =====================================================
+       ICON
+    ===================================================== */
+
+    .settings-icon {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 10px;
+
+        background: #edf7ef;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 19px;
+
+        margin-right: 15px;
+
+        flex-shrink: 0;
+    }
+
+
+    /* =====================================================
+       INFORMATION
+    ===================================================== */
+
+    .settings-info {
+        flex: 1;
+    }
+
+    .settings-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 4px;
+    }
+
+    .settings-description {
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       MOBILE NUMBER INPUT
+    ===================================================== */
+
+    .mobile-verification-form {
+        padding: 20px;
+    }
+
+    .mobile-verification-form label {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: #374151;
+
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .mobile-verification-form input {
+        width: 100%;
+        box-sizing: border-box;
+
+        height: 46px;
+
+        padding: 0 14px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+
+        background: #ffffff;
+
+        color: #1f2937;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .mobile-verification-form input:focus {
+        border-color: #2e7d32;
+
+        box-shadow:
+            0 0 0 3px rgba(46, 125, 50, 0.12);
+    }
+
+
+    /* =====================================================
+       VERIFICATION STATUS
+    ===================================================== */
+
+    .mobile-status {
+        margin-top: 9px;
+
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .mobile-status-unverified {
+        color: #c26a00;
+    }
+
+    .mobile-status-verified {
+        color: #2e7d32;
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       PRIMARY BUTTON
+    ===================================================== */
+
+    .mpin-primary-button {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        min-height: 42px;
+
+        padding: 10px 20px;
+
+        border: none;
+        border-radius: 8px;
+
+        background: #2e7d32;
+        color: #ffffff;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        text-decoration: none;
+
+        cursor: pointer;
+
+        transition:
+            background 0.2s ease,
+            transform 0.15s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .mpin-primary-button:hover {
+        background: #256b2a;
+
+        box-shadow:
+            0 4px 10px rgba(46, 125, 50, 0.20);
+
+        transform: translateY(-1px);
+    }
+
+    .mpin-primary-button:active {
+        transform: translateY(0);
+    }
+
+
+    /* =====================================================
+       BACK BUTTON
+    ===================================================== */
+
+    .cancel-button {
+        display: inline-flex;
+
+        align-items: center;
+
+        color: #374151;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        text-decoration: none;
+    }
+
+    .cancel-button:hover {
+        color: #2e7d32;
+    }
+
+
+    /* =====================================================
+       STATUS BADGE
+    ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+
+        align-items: center;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .status-enabled {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-disabled {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .settings-page {
+            padding: 0 12px;
+        }
+
+        .settings-header h1 {
+            font-size: 24px;
+        }
+
+        .settings-item {
+            padding: 15px;
+        }
+
+        .mobile-verification-form {
+            padding: 16px;
+        }
+
+        .settings-description {
+            font-size: 12px;
+        }
+
+        .mpin-primary-button {
+            width: 100%;
+        }
+    }
+
+</style>
+
+<div class="settings-page">
+
+    <div class="settings-header">
+        <h1>Mobile Number & MPIN</h1>
+
+        <p>
+            Verify your mobile number and configure your Mobile MPIN
+            for secure identity verification.
+        </p>
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE VERIFICATION
+    ====================================================== -->
+
+    <div class="settings-section">
+
+        <div class="settings-section-title">
+            MOBILE VERIFICATION
+        </div>
+
+        <div class="settings-card">
+
+            <div class="settings-item">
+
+                <div class="settings-icon">
+                    📱
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Mobile Number
+                    </div>
+
+                    <div class="settings-description">
+                        Your mobile number must be verified before
+                        you can configure Mobile MPIN.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-form-area">
+
+    <form
+        method="POST"
+        action="{{ url_for('dashboard_bp.update_mobile_number') }}"
+    >
+
+        <label for="mobile_number">
+            Mobile Number
+        </label>
+
+        <input
+            type="text"
+            id="mobile_number"
+            name="mobile_number"
+            value="{{ user.mobile_number or '' }}"
+            placeholder="Enter 10-digit mobile number"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+        >
+
+        {% if not user.mobile_verified %}
+
+            <button
+                type="submit"
+                class="mpin-primary-button"
+            >
+                Verify
+            </button>
+
+        {% endif %}
+
+    </form>
+
+</div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MPIN
+         ONLY APPEARS AFTER MOBILE VERIFICATION
+    ====================================================== -->
+
+    {% if user.mobile_verified %}
+
+    <div class="settings-section">
+
+        <div class="settings-section-title">
+            MOBILE MPIN
+        </div>
+
+        <div class="settings-card">
+
+            <div class="settings-item">
+
+                <div class="settings-icon">
+                    🔐
+                </div>
+
+                <div class="settings-info">
+
+                    <div class="settings-name">
+                        Mobile MPIN
+                    </div>
+
+                    <div class="settings-description">
+
+                        {% if user.mpin %}
+
+                            Your Mobile MPIN is configured.
+                            You can change it whenever required.
+
+                        {% else %}
+
+                            Create a 6-digit Mobile MPIN for
+                            secure identity verification.
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-form-area">
+
+                <a
+                    href="{{ url_for('dashboard_bp.set_mpin') }}"
+                    class="mpin-primary-button"
+                >
+                    {% if user.mpin %}
+                        Change MPIN
+                    {% else %}
+                        Set MPIN
+                    {% endif %}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         BACK
+    ====================================================== -->
+
+    <div class="settings-back">
+
+        <a
+            href="{{ url_for('dashboard_bp.settings') }}"
+            class="cancel-button"
+        >
+            Back to Settings
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

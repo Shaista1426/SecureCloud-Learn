@@ -1,0 +1,66 @@
+{# templates/quizzes/view_quiz_result.html #}
+{% extends "base.html" %}
+{% block content %}
+
+<h2 style="color:#2e7d32;">Result — {{ quiz.title }}</h2>
+
+<div class="card p-3 mb-3">
+    <p><strong>Score:</strong> {{ attempt.score }} / {{ attempt.total_marks }}</p>
+<p><strong>Percentage:</strong> {{ attempt.percentage }}%</p>
+
+{% if attempt.status == "PASS" %}
+    <p style="color:green; font-weight:bold;">Status: PASS ✅</p>
+{% else %}
+    <p style="color:red; font-weight:bold;">Status: FAIL ❌</p>
+{% endif %}
+
+    {% if attempt.status == "PASS" %}
+    <a href="{{ url_for('course_bp.certificate', course_id=course.id) }}"
+       class="btn btn-success">
+        🎓 View Certificate
+    </a>
+{% endif %}
+{% if attempt.status == "FAIL" %}
+    <a href="{{ url_for('quiz_bp.attempt_quiz', quiz_id=quiz.id) }}"
+   class="btn btn-warning">
+   Re-attempt Quiz
+</a>
+
+{% endif %}
+
+
+    <div class="result-card">
+    <h2>Result — {{ quiz.title }}</h2>
+
+    <p><strong>Score:</strong> {{ attempt.score }}/{{ attempt.total_marks }}</p>
+    <p><strong>Percentage:</strong> {{ attempt.percentage }}%</p>
+
+    {% if attempt.status == "PASS" %}
+        <span class="badge-success">PASS</span>
+    {% else %}
+        <span class="badge-fail">FAIL</span>
+    {% endif %}
+
+    <br><br>
+
+    <a href="{{ url_for('course_bp.view_course', course_id=course.id) }}"
+       class="btn">Back to Course</a>
+</div>
+
+    <p><strong>Attempted on:</strong> {{ attempt.attempted_on.strftime('%Y-%m-%d %H:%M:%S') if attempt.attempted_on else 'N/A' }}</p>
+</div>
+
+<h4>Questions & Correct Answers</h4>
+{% for q in questions %}
+    <div class="card mb-2 p-3">
+        <p><strong>Q{{ loop.index }}. {{ q.question_text }}</strong></p>
+        <p><small>Correct answer: {{ q.correct_option }}</small></p>
+    </div>
+{% endfor %}
+
+{# Link back to course #}
+{% if quiz.course_id %}
+    <a href="{{ url_for('course_bp.view_course', course_id=quiz.course_id) }}" class="btn btn-primary mt-3">Back to Course</a>
+{% endif %}
+
+{% endblock %}

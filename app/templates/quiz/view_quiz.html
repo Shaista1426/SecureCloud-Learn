@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="quiz-container">
+    <h1 class="quiz-title">{{ quiz.title }}</h1>
+
+    {% if questions %}
+        {% for question in questions %}
+            <div class="question-card">
+                <p class="question-text"><strong>Q{{ loop.index }}:</strong> {{ question.question_text }}</p>
+
+                <ul class="options-list">
+                    <li {% if question.correct_option == 'option1' %}class="correct"{% endif %}>{{ question.option1 }}</li>
+                    <li {% if question.correct_option == 'option2' %}class="correct"{% endif %}>{{ question.option2 }}</li>
+                    <li {% if question.correct_option == 'option3' %}class="correct"{% endif %}>{{ question.option3 }}</li>
+                    <li {% if question.correct_option == 'option4' %}class="correct"{% endif %}>{{ question.option4 }}</li>
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No questions added yet.</p>
+    {% endif %}
+
+    <!-- Buttons -->
+    <a href="{{ url_for('quiz_bp.add_question', quiz_id=quiz.id) }}" class="btn">Add Question</a>
+
+</div>
+
+<style>
+.quiz-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.quiz-title {
+    font-size: 32px;
+    color: #2a7f4f;
+    margin-bottom: 20px;
+}
+
+.question-card {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid #2a7f4f;
+}
+
+.question-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.options-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.options-list li {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.options-list li.correct {
+    background: #d4edda;
+    border-color: #28a745;
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #2a7f4f;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+.btn:hover {
+    background-color: #246b42;
+}
+</style>
+{% endblock %}
